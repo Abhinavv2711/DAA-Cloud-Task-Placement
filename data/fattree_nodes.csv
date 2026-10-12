@@ -1,0 +1,21 @@
+Id,Label,cpu_capacity,ram_capacity,storage_capacity,tier,region,x,y
+Core-1,Core Switch 1,128.0,512.0,2000.0,core,default,2.0,9.0
+Core-2,Core Switch 2,128.0,512.0,2000.0,core,default,5.0,9.0
+Core-3,Core Switch 3,128.0,512.0,2000.0,core,default,8.0,9.0
+Core-4,Core Switch 4,128.0,512.0,2000.0,core,default,11.0,9.0
+Pod0-Agg0,Pod 0 Agg 0,64.0,256.0,2000.0,aggregation,default,0.0,6.0
+Pod0-Agg1,Pod 0 Agg 1,64.0,256.0,2000.0,aggregation,default,1.5,6.0
+Pod0-Edge0,Pod 0 Rack Edge 0,64.0,256.0,2000.0,edge,default,0.0,3.0
+Pod0-Edge1,Pod 0 Rack Edge 1,64.0,256.0,2000.0,edge,default,1.5,3.0
+Pod1-Agg0,Pod 1 Agg 0,64.0,256.0,2000.0,aggregation,default,4.0,6.0
+Pod1-Agg1,Pod 1 Agg 1,64.0,256.0,2000.0,aggregation,default,5.5,6.0
+Pod1-Edge0,Pod 1 Rack Edge 0,64.0,256.0,2000.0,edge,default,4.0,3.0
+Pod1-Edge1,Pod 1 Rack Edge 1,64.0,256.0,2000.0,edge,default,5.5,3.0
+Pod2-Agg0,Pod 2 Agg 0,64.0,256.0,2000.0,aggregation,default,8.0,6.0
+Pod2-Agg1,Pod 2 Agg 1,64.0,256.0,2000.0,aggregation,default,9.5,6.0
+Pod2-Edge0,Pod 2 Rack Edge 0,64.0,256.0,2000.0,edge,default,8.0,3.0
+Pod2-Edge1,Pod 2 Rack Edge 1,64.0,256.0,2000.0,edge,default,9.5,3.0
+Pod3-Agg0,Pod 3 Agg 0,64.0,256.0,2000.0,aggregation,default,12.0,6.0
+Pod3-Agg1,Pod 3 Agg 1,64.0,256.0,2000.0,aggregation,default,13.5,6.0
+Pod3-Edge0,Pod 3 Rack Edge 0,64.0,256.0,2000.0,edge,default,12.0,3.0
+Pod3-Edge1,Pod 3 Rack Edge 1,64.0,256.0,2000.0,edge,default,13.5,3.0

@@ -1,0 +1,5 @@
+Nodes (V),Edges (E),Dijkstra SSSP (ms),Bellman-Ford SSSP (ms),Floyd-Warshall APSP (ms),Johnson APSP (ms),APSP Speedup (FW / Johnson)
+10,7,0.047,0.027,0.151,0.708,0.21
+20,24,0.299,0.158,0.547,2.8,0.2
+35,76,0.212,0.383,5.105,11.572,0.44
+50,141,0.439,0.422,10.841,20.973,0.52

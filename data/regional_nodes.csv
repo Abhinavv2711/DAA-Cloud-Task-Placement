@@ -1,0 +1,21 @@
+Id,Label,cpu_capacity,ram_capacity,storage_capacity,tier,region,x,y
+US-East-1,Virginia (Core DC),256.0,1024.0,2000.0,core,US,3.0,7.0
+US-East-2,Ohio,128.0,512.0,2000.0,aggregation,US,3.8,6.8
+US-West-1,N. California,128.0,512.0,2000.0,aggregation,US,1.2,6.5
+US-West-2,Oregon,192.0,768.0,2000.0,core,US,1.0,8.0
+US-Central,Iowa,96.0,384.0,2000.0,edge,US,2.5,6.9
+CA-Central,Montreal,96.0,384.0,2000.0,edge,CA,3.6,8.5
+EU-West-1,Ireland,192.0,768.0,2000.0,core,EU,7.0,8.2
+EU-West-2,London,128.0,512.0,2000.0,aggregation,EU,7.5,7.8
+EU-Central-1,Frankfurt,256.0,1024.0,2000.0,core,EU,8.5,7.2
+EU-North-1,Stockholm,96.0,384.0,2000.0,edge,EU,8.8,9.0
+EU-South-1,Milan,96.0,384.0,2000.0,edge,EU,8.4,6.2
+AP-South-1,Mumbai,128.0,512.0,2000.0,aggregation,AP,12.0,4.5
+AP-Southeast-1,Singapore,192.0,768.0,2000.0,core,AP,14.0,3.0
+AP-East-1,Hong Kong,96.0,384.0,2000.0,edge,AP,14.5,5.0
+AP-Northeast-1,Tokyo,192.0,768.0,2000.0,core,AP,16.0,6.5
+AP-Northeast-2,Seoul,96.0,384.0,2000.0,edge,AP,15.2,7.0
+AP-Southeast-2,Sydney,128.0,512.0,2000.0,aggregation,AP,16.5,1.5
+SA-East-1,São Paulo,96.0,384.0,2000.0,edge,SA,4.5,2.0
+ME-Central-1,Dubai,96.0,384.0,2000.0,edge,ME,10.5,5.2
+AF-South-1,Cape Town,64.0,256.0,2000.0,edge,AF,8.5,1.2

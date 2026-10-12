@@ -1,0 +1,408 @@
+{
+  "directed": false,
+  "nodes": [
+    {
+      "node_id": "US-East-1",
+      "name": "Virginia (Core DC)",
+      "cpu_capacity": 256.0,
+      "ram_capacity": 1024.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 3.0,
+      "y": 7.0,
+      "region": "US",
+      "metadata": {}
+    },
+    {
+      "node_id": "US-East-2",
+      "name": "Ohio",
+      "cpu_capacity": 128.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 3.8,
+      "y": 6.8,
+      "region": "US",
+      "metadata": {}
+    },
+    {
+      "node_id": "US-West-1",
+      "name": "N. California",
+      "cpu_capacity": 128.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 1.2,
+      "y": 6.5,
+      "region": "US",
+      "metadata": {}
+    },
+    {
+      "node_id": "US-West-2",
+      "name": "Oregon",
+      "cpu_capacity": 192.0,
+      "ram_capacity": 768.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 1.0,
+      "y": 8.0,
+      "region": "US",
+      "metadata": {}
+    },
+    {
+      "node_id": "US-Central",
+      "name": "Iowa",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 2.5,
+      "y": 6.9,
+      "region": "US",
+      "metadata": {}
+    },
+    {
+      "node_id": "CA-Central",
+      "name": "Montreal",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 3.6,
+      "y": 8.5,
+      "region": "CA",
+      "metadata": {}
+    },
+    {
+      "node_id": "EU-West-1",
+      "name": "Ireland",
+      "cpu_capacity": 192.0,
+      "ram_capacity": 768.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 7.0,
+      "y": 8.2,
+      "region": "EU",
+      "metadata": {}
+    },
+    {
+      "node_id": "EU-West-2",
+      "name": "London",
+      "cpu_capacity": 128.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 7.5,
+      "y": 7.8,
+      "region": "EU",
+      "metadata": {}
+    },
+    {
+      "node_id": "EU-Central-1",
+      "name": "Frankfurt",
+      "cpu_capacity": 256.0,
+      "ram_capacity": 1024.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 8.5,
+      "y": 7.2,
+      "region": "EU",
+      "metadata": {}
+    },
+    {
+      "node_id": "EU-North-1",
+      "name": "Stockholm",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 8.8,
+      "y": 9.0,
+      "region": "EU",
+      "metadata": {}
+    },
+    {
+      "node_id": "EU-South-1",
+      "name": "Milan",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 8.4,
+      "y": 6.2,
+      "region": "EU",
+      "metadata": {}
+    },
+    {
+      "node_id": "AP-South-1",
+      "name": "Mumbai",
+      "cpu_capacity": 128.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 12.0,
+      "y": 4.5,
+      "region": "AP",
+      "metadata": {}
+    },
+    {
+      "node_id": "AP-Southeast-1",
+      "name": "Singapore",
+      "cpu_capacity": 192.0,
+      "ram_capacity": 768.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 14.0,
+      "y": 3.0,
+      "region": "AP",
+      "metadata": {}
+    },
+    {
+      "node_id": "AP-East-1",
+      "name": "Hong Kong",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 14.5,
+      "y": 5.0,
+      "region": "AP",
+      "metadata": {}
+    },
+    {
+      "node_id": "AP-Northeast-1",
+      "name": "Tokyo",
+      "cpu_capacity": 192.0,
+      "ram_capacity": 768.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 16.0,
+      "y": 6.5,
+      "region": "AP",
+      "metadata": {}
+    },
+    {
+      "node_id": "AP-Northeast-2",
+      "name": "Seoul",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 15.2,
+      "y": 7.0,
+      "region": "AP",
+      "metadata": {}
+    },
+    {
+      "node_id": "AP-Southeast-2",
+      "name": "Sydney",
+      "cpu_capacity": 128.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 16.5,
+      "y": 1.5,
+      "region": "AP",
+      "metadata": {}
+    },
+    {
+      "node_id": "SA-East-1",
+      "name": "S\u00e3o Paulo",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 4.5,
+      "y": 2.0,
+      "region": "SA",
+      "metadata": {}
+    },
+    {
+      "node_id": "ME-Central-1",
+      "name": "Dubai",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 10.5,
+      "y": 5.2,
+      "region": "ME",
+      "metadata": {}
+    },
+    {
+      "node_id": "AF-South-1",
+      "name": "Cape Town",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 8.5,
+      "y": 1.2,
+      "region": "AF",
+      "metadata": {}
+    }
+  ],
+  "edges": [
+    {
+      "u": "US-East-1",
+      "v": "EU-West-1",
+      "weight": 68.0,
+      "bandwidth": 100000.0,
+      "metadata": {}
+    },
+    {
+      "u": "US-East-1",
+      "v": "US-East-2",
+      "weight": 11.0,
+      "bandwidth": 100000.0,
+      "metadata": {}
+    },
+    {
+      "u": "US-East-1",
+      "v": "CA-Central",
+      "weight": 15.0,
+      "bandwidth": 50000.0,
+      "metadata": {}
+    },
+    {
+      "u": "US-East-1",
+      "v": "SA-East-1",
+      "weight": 105.0,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "US-East-2",
+      "v": "EU-West-2",
+      "weight": 72.0,
+      "bandwidth": 80000.0,
+      "metadata": {}
+    },
+    {
+      "u": "US-East-2",
+      "v": "US-Central",
+      "weight": 14.0,
+      "bandwidth": 80000.0,
+      "metadata": {}
+    },
+    {
+      "u": "US-West-1",
+      "v": "US-West-2",
+      "weight": 18.0,
+      "bandwidth": 80000.0,
+      "metadata": {}
+    },
+    {
+      "u": "US-West-1",
+      "v": "US-Central",
+      "weight": 29.0,
+      "bandwidth": 50000.0,
+      "metadata": {}
+    },
+    {
+      "u": "US-West-1",
+      "v": "AP-Southeast-2",
+      "weight": 138.0,
+      "bandwidth": 60000.0,
+      "metadata": {}
+    },
+    {
+      "u": "US-West-2",
+      "v": "US-Central",
+      "weight": 32.0,
+      "bandwidth": 80000.0,
+      "metadata": {}
+    },
+    {
+      "u": "US-West-2",
+      "v": "AP-Northeast-1",
+      "weight": 95.0,
+      "bandwidth": 100000.0,
+      "metadata": {}
+    },
+    {
+      "u": "EU-West-1",
+      "v": "EU-West-2",
+      "weight": 12.0,
+      "bandwidth": 100000.0,
+      "metadata": {}
+    },
+    {
+      "u": "EU-West-2",
+      "v": "EU-Central-1",
+      "weight": 16.0,
+      "bandwidth": 100000.0,
+      "metadata": {}
+    },
+    {
+      "u": "EU-West-2",
+      "v": "AF-South-1",
+      "weight": 135.0,
+      "bandwidth": 30000.0,
+      "metadata": {}
+    },
+    {
+      "u": "EU-Central-1",
+      "v": "EU-North-1",
+      "weight": 22.0,
+      "bandwidth": 50000.0,
+      "metadata": {}
+    },
+    {
+      "u": "EU-Central-1",
+      "v": "EU-South-1",
+      "weight": 15.0,
+      "bandwidth": 50000.0,
+      "metadata": {}
+    },
+    {
+      "u": "EU-Central-1",
+      "v": "ME-Central-1",
+      "weight": 65.0,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "AP-South-1",
+      "v": "ME-Central-1",
+      "weight": 38.0,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "AP-South-1",
+      "v": "AP-Southeast-1",
+      "weight": 42.0,
+      "bandwidth": 60000.0,
+      "metadata": {}
+    },
+    {
+      "u": "AP-Southeast-1",
+      "v": "AP-East-1",
+      "weight": 34.0,
+      "bandwidth": 60000.0,
+      "metadata": {}
+    },
+    {
+      "u": "AP-Southeast-1",
+      "v": "AP-Southeast-2",
+      "weight": 92.0,
+      "bandwidth": 50000.0,
+      "metadata": {}
+    },
+    {
+      "u": "AP-East-1",
+      "v": "AP-Northeast-2",
+      "weight": 28.0,
+      "bandwidth": 50000.0,
+      "metadata": {}
+    },
+    {
+      "u": "AP-Northeast-1",
+      "v": "AP-Northeast-2",
+      "weight": 24.0,
+      "bandwidth": 80000.0,
+      "metadata": {}
+    }
+  ]
+}

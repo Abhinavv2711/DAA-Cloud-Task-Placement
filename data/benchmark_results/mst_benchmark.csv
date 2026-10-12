@@ -1,0 +1,9 @@
+Nodes (V),Edges (E),Density Type,Graph Density,Prim Runtime (ms),Kruskal Runtime (ms),Prim MST Weight,Kruskal MST Weight,Weights Match
+15,11,sparse,0.1048,0.142,0.059,44.84,44.84,True
+15,40,dense,0.381,0.114,0.075,61.93,61.93,True
+30,30,sparse,0.069,0.14,0.091,112.4,112.4,True
+30,155,dense,0.3563,0.212,0.183,102.06,102.06,True
+60,92,sparse,0.052,0.375,0.173,260.77,260.77,True
+60,732,dense,0.4136,1.068,1.474,157.27,157.27,True
+120,384,sparse,0.0538,1.834,1.178,390.93,390.93,True
+120,2997,dense,0.4197,2.388,3.49,259.15,259.15,True

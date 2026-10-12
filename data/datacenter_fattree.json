@@ -1,0 +1,471 @@
+{
+  "directed": false,
+  "nodes": [
+    {
+      "node_id": "Core-1",
+      "name": "Core Switch 1",
+      "cpu_capacity": 128.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 2.0,
+      "y": 9.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Core-2",
+      "name": "Core Switch 2",
+      "cpu_capacity": 128.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 5.0,
+      "y": 9.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Core-3",
+      "name": "Core Switch 3",
+      "cpu_capacity": 128.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 8.0,
+      "y": 9.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Core-4",
+      "name": "Core Switch 4",
+      "cpu_capacity": 128.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 11.0,
+      "y": 9.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod0-Agg0",
+      "name": "Pod 0 Agg 0",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 0.0,
+      "y": 6.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod0-Agg1",
+      "name": "Pod 0 Agg 1",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 1.5,
+      "y": 6.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod0-Edge0",
+      "name": "Pod 0 Rack Edge 0",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 0.0,
+      "y": 3.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod0-Edge1",
+      "name": "Pod 0 Rack Edge 1",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 1.5,
+      "y": 3.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod1-Agg0",
+      "name": "Pod 1 Agg 0",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 4.0,
+      "y": 6.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod1-Agg1",
+      "name": "Pod 1 Agg 1",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 5.5,
+      "y": 6.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod1-Edge0",
+      "name": "Pod 1 Rack Edge 0",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 4.0,
+      "y": 3.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod1-Edge1",
+      "name": "Pod 1 Rack Edge 1",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 5.5,
+      "y": 3.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod2-Agg0",
+      "name": "Pod 2 Agg 0",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 8.0,
+      "y": 6.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod2-Agg1",
+      "name": "Pod 2 Agg 1",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 9.5,
+      "y": 6.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod2-Edge0",
+      "name": "Pod 2 Rack Edge 0",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 8.0,
+      "y": 3.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod2-Edge1",
+      "name": "Pod 2 Rack Edge 1",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 9.5,
+      "y": 3.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod3-Agg0",
+      "name": "Pod 3 Agg 0",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 12.0,
+      "y": 6.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod3-Agg1",
+      "name": "Pod 3 Agg 1",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 13.5,
+      "y": 6.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod3-Edge0",
+      "name": "Pod 3 Rack Edge 0",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 12.0,
+      "y": 3.0,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Pod3-Edge1",
+      "name": "Pod 3 Rack Edge 1",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 13.5,
+      "y": 3.0,
+      "region": "default",
+      "metadata": {}
+    }
+  ],
+  "edges": [
+    {
+      "u": "Core-1",
+      "v": "Pod0-Agg0",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Core-1",
+      "v": "Pod1-Agg0",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Core-1",
+      "v": "Pod2-Agg0",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Core-1",
+      "v": "Pod3-Agg0",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Core-2",
+      "v": "Pod0-Agg0",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Core-2",
+      "v": "Pod1-Agg0",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Core-2",
+      "v": "Pod2-Agg0",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Core-2",
+      "v": "Pod3-Agg0",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Core-3",
+      "v": "Pod0-Agg1",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Core-3",
+      "v": "Pod1-Agg1",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Core-3",
+      "v": "Pod2-Agg1",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Core-3",
+      "v": "Pod3-Agg1",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Core-4",
+      "v": "Pod0-Agg1",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Core-4",
+      "v": "Pod1-Agg1",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Core-4",
+      "v": "Pod2-Agg1",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Core-4",
+      "v": "Pod3-Agg1",
+      "weight": 1.5,
+      "bandwidth": 40000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod0-Agg0",
+      "v": "Pod0-Edge0",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod0-Agg0",
+      "v": "Pod0-Edge1",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod0-Agg1",
+      "v": "Pod0-Edge0",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod0-Agg1",
+      "v": "Pod0-Edge1",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod1-Agg0",
+      "v": "Pod1-Edge0",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod1-Agg0",
+      "v": "Pod1-Edge1",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod1-Agg1",
+      "v": "Pod1-Edge0",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod1-Agg1",
+      "v": "Pod1-Edge1",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod2-Agg0",
+      "v": "Pod2-Edge0",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod2-Agg0",
+      "v": "Pod2-Edge1",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod2-Agg1",
+      "v": "Pod2-Edge0",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod2-Agg1",
+      "v": "Pod2-Edge1",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod3-Agg0",
+      "v": "Pod3-Edge0",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod3-Agg0",
+      "v": "Pod3-Edge1",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod3-Agg1",
+      "v": "Pod3-Edge0",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Pod3-Agg1",
+      "v": "Pod3-Edge1",
+      "weight": 0.8,
+      "bandwidth": 25000.0,
+      "metadata": {}
+    }
+  ]
+}

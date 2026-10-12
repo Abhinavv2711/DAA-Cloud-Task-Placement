@@ -1,0 +1,864 @@
+{
+  "directed": false,
+  "nodes": [
+    {
+      "node_id": "Node-1",
+      "name": "Server Node-1",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 63.942679845788376,
+      "y": 2.5010755222666936,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-2",
+      "name": "Server Node-2",
+      "cpu_capacity": 32.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 22.321073814882276,
+      "y": 73.64712141640123,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-3",
+      "name": "Server Node-3",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 3.1782679481783593,
+      "y": 9.369523986159244,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-4",
+      "name": "Server Node-4",
+      "cpu_capacity": 128.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 56.1245062938613,
+      "y": 71.60196129224035,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-5",
+      "name": "Server Node-5",
+      "cpu_capacity": 32.0,
+      "ram_capacity": 128.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 44.92090462838536,
+      "y": 27.819070823066273,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-6",
+      "name": "Server Node-6",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 69.81393949882269,
+      "y": 34.02505165179919,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-7",
+      "name": "Server Node-7",
+      "cpu_capacity": 32.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 95.72130722067811,
+      "y": 33.65945451126267,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-8",
+      "name": "Server Node-8",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 9.6716376833464,
+      "y": 84.74943663474598,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-9",
+      "name": "Server Node-9",
+      "cpu_capacity": 128.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 72.9731786693818,
+      "y": 53.62280914547007,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-10",
+      "name": "Server Node-10",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 55.2040631273227,
+      "y": 82.94046642529949,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-11",
+      "name": "Server Node-11",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 70.45718362149235,
+      "y": 4.5824383655662215,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-12",
+      "name": "Server Node-12",
+      "cpu_capacity": 32.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 98.52215206607578,
+      "y": 85.53177210151469,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-13",
+      "name": "Server Node-13",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 27.79736031100921,
+      "y": 63.56844442644002,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-14",
+      "name": "Server Node-14",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 37.018096711688266,
+      "y": 20.95070307714877,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-15",
+      "name": "Server Node-15",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 60.913100566698816,
+      "y": 17.1138648198097,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-16",
+      "name": "Server Node-16",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 46.22602118511158,
+      "y": 26.994782678427796,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-17",
+      "name": "Server Node-17",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 84.28519201898096,
+      "y": 77.59999115462448,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-18",
+      "name": "Server Node-18",
+      "cpu_capacity": 32.0,
+      "ram_capacity": 128.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 80.50458007712143,
+      "y": 40.1164787022329,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-19",
+      "name": "Server Node-19",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 91.3136124185545,
+      "y": 56.71800514785023,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-20",
+      "name": "Server Node-20",
+      "cpu_capacity": 128.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 65.543866529488,
+      "y": 39.56319010606643,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-21",
+      "name": "Server Node-21",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 768.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 26.488016649805246,
+      "y": 24.662750769398343,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-22",
+      "name": "Server Node-22",
+      "cpu_capacity": 64.0,
+      "ram_capacity": 256.0,
+      "storage_capacity": 2000.0,
+      "tier": "aggregation",
+      "x": 89.78228836024769,
+      "y": 39.940050514039726,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-23",
+      "name": "Server Node-23",
+      "cpu_capacity": 32.0,
+      "ram_capacity": 128.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 50.95262936764645,
+      "y": 9.090941217379388,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-24",
+      "name": "Server Node-24",
+      "cpu_capacity": 128.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 15.284131934826107,
+      "y": 15.998200172245024,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-25",
+      "name": "Server Node-25",
+      "cpu_capacity": 128.0,
+      "ram_capacity": 1024.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 38.476731167450005,
+      "y": 59.58884283611281,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-26",
+      "name": "Server Node-26",
+      "cpu_capacity": 32.0,
+      "ram_capacity": 128.0,
+      "storage_capacity": 2000.0,
+      "tier": "edge",
+      "x": 97.10783776136182,
+      "y": 86.07797022344981,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-27",
+      "name": "Server Node-27",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 768.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 68.17103690265748,
+      "y": 53.69703304087952,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-28",
+      "name": "Server Node-28",
+      "cpu_capacity": 128.0,
+      "ram_capacity": 512.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 11.155217359587644,
+      "y": 43.4765250669105,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-29",
+      "name": "Server Node-29",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 95.38159275210802,
+      "y": 87.58529403781941,
+      "region": "default",
+      "metadata": {}
+    },
+    {
+      "node_id": "Node-30",
+      "name": "Server Node-30",
+      "cpu_capacity": 96.0,
+      "ram_capacity": 384.0,
+      "storage_capacity": 2000.0,
+      "tier": "core",
+      "x": 50.76816746043252,
+      "y": 10.641082279770497,
+      "region": "default",
+      "metadata": {}
+    }
+  ],
+  "edges": [
+    {
+      "u": "Node-1",
+      "v": "Node-7",
+      "weight": 7.66,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-1",
+      "v": "Node-15",
+      "weight": 3.84,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-1",
+      "v": "Node-18",
+      "weight": 7.65,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-2",
+      "v": "Node-5",
+      "weight": 8.2,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-2",
+      "v": "Node-8",
+      "weight": 3.97,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-2",
+      "v": "Node-9",
+      "weight": 8.72,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-2",
+      "v": "Node-10",
+      "weight": 5.98,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-2",
+      "v": "Node-24",
+      "weight": 10.19,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-2",
+      "v": "Node-25",
+      "weight": 4.32,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-2",
+      "v": "Node-27",
+      "weight": 8.29,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-3",
+      "v": "Node-9",
+      "weight": 14.4,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-3",
+      "v": "Node-28",
+      "weight": 6.2,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-4",
+      "v": "Node-6",
+      "weight": 7.38,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-4",
+      "v": "Node-9",
+      "weight": 4.96,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-4",
+      "v": "Node-10",
+      "weight": 2.31,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-4",
+      "v": "Node-15",
+      "weight": 8.83,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-4",
+      "v": "Node-27",
+      "weight": 4.42,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-4",
+      "v": "Node-29",
+      "weight": 7.18,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-5",
+      "v": "Node-7",
+      "weight": 8.54,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-5",
+      "v": "Node-14",
+      "weight": 3.3,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-5",
+      "v": "Node-16",
+      "weight": 2.05,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-5",
+      "v": "Node-18",
+      "weight": 6.98,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-5",
+      "v": "Node-20",
+      "weight": 4.57,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-5",
+      "v": "Node-29",
+      "weight": 13.39,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-6",
+      "v": "Node-7",
+      "weight": 5.05,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-6",
+      "v": "Node-9",
+      "weight": 3.59,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-6",
+      "v": "Node-14",
+      "weight": 5.99,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-6",
+      "v": "Node-18",
+      "weight": 2.88,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-6",
+      "v": "Node-20",
+      "weight": 2.72,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-6",
+      "v": "Node-25",
+      "weight": 7.77,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-6",
+      "v": "Node-27",
+      "weight": 4.57,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-7",
+      "v": "Node-13",
+      "weight": 12.34,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-7",
+      "v": "Node-18",
+      "weight": 3.02,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-7",
+      "v": "Node-21",
+      "weight": 12.13,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-7",
+      "v": "Node-27",
+      "weight": 7.07,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-7",
+      "v": "Node-30",
+      "weight": 8.97,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-8",
+      "v": "Node-17",
+      "weight": 13.13,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-9",
+      "v": "Node-17",
+      "weight": 5.33,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-9",
+      "v": "Node-19",
+      "weight": 3.72,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-10",
+      "v": "Node-13",
+      "weight": 6.96,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-10",
+      "v": "Node-17",
+      "weight": 5.3,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-10",
+      "v": "Node-26",
+      "weight": 7.83,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-11",
+      "v": "Node-15",
+      "weight": 3.06,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-11",
+      "v": "Node-30",
+      "weight": 4.55,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-12",
+      "v": "Node-17",
+      "weight": 3.45,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-12",
+      "v": "Node-18",
+      "weight": 8.06,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-12",
+      "v": "Node-26",
+      "weight": 2.08,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-12",
+      "v": "Node-28",
+      "weight": 16.37,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-12",
+      "v": "Node-29",
+      "weight": 1.07,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-14",
+      "v": "Node-19",
+      "weight": 10.9,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-14",
+      "v": "Node-20",
+      "weight": 6.0,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-14",
+      "v": "Node-21",
+      "weight": 2.67,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-14",
+      "v": "Node-28",
+      "weight": 7.07,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-15",
+      "v": "Node-20",
+      "weight": 4.17,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-15",
+      "v": "Node-22",
+      "weight": 7.44,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-16",
+      "v": "Node-18",
+      "weight": 6.47,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-17",
+      "v": "Node-19",
+      "weight": 4.6,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-17",
+      "v": "Node-25",
+      "weight": 9.32,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-17",
+      "v": "Node-29",
+      "weight": 3.52,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-18",
+      "v": "Node-27",
+      "weight": 4.57,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-20",
+      "v": "Node-22",
+      "weight": 4.75,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-20",
+      "v": "Node-28",
+      "weight": 9.01,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-21",
+      "v": "Node-30",
+      "weight": 5.79,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-22",
+      "v": "Node-23",
+      "weight": 8.74,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-23",
+      "v": "Node-24",
+      "weight": 6.24,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-23",
+      "v": "Node-30",
+      "weight": 1.17,
+      "bandwidth": 5000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-24",
+      "v": "Node-28",
+      "weight": 5.09,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-24",
+      "v": "Node-30",
+      "weight": 5.96,
+      "bandwidth": 10000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-25",
+      "v": "Node-27",
+      "weight": 5.78,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-25",
+      "v": "Node-29",
+      "weight": 10.24,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    },
+    {
+      "u": "Node-26",
+      "v": "Node-27",
+      "weight": 7.39,
+      "bandwidth": 20000.0,
+      "metadata": {}
+    }
+  ]
+}

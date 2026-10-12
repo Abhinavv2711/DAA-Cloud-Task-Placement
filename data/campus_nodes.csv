@@ -1,0 +1,17 @@
+Id,Label,cpu_capacity,ram_capacity,storage_capacity,tier,region,x,y
+Core-1,Main Data Center Core,128.0,512.0,2000.0,core,Campus,5.0,8.0
+Core-2,Backup Disaster Recovery Core,128.0,512.0,2000.0,core,Campus,9.0,8.0
+Dist-North,Distribution North (STEM),64.0,256.0,2000.0,aggregation,Campus,3.0,6.0
+Dist-South,Distribution South (Admin/Res),64.0,256.0,2000.0,aggregation,Campus,7.0,6.0
+Dist-East,Distribution East (Medical/Bio),64.0,256.0,2000.0,aggregation,Campus,11.0,6.0
+Dist-West,Distribution West (Arts/Lib),64.0,256.0,2000.0,aggregation,Campus,1.0,6.0
+CS-Lab,Computer Science Cluster,96.0,384.0,2000.0,edge_compute,Campus,2.0,3.5
+Eng-HPC,Engineering Supercomputer,128.0,512.0,2000.0,edge_compute,Campus,4.0,3.5
+Science-DC,Natural Sciences Server,64.0,256.0,2000.0,edge_compute,Campus,3.0,1.5
+Admin-Server,Central Administration VM,48.0,192.0,2000.0,edge_compute,Campus,6.0,3.5
+Library-Edge,Digital Library Repository,32.0,128.0,2000.0,edge_compute,Campus,0.5,3.5
+Medical-Edge,University Hospital Datacenter,96.0,384.0,2000.0,edge_compute,Campus,11.5,3.5
+Biotech-Lab,Genomics Sequencing Server,64.0,256.0,2000.0,edge_compute,Campus,10.0,1.5
+Hostel-DC-A,Student Residence Edge Alpha,32.0,128.0,2000.0,edge_compute,Campus,7.5,1.5
+Hostel-DC-B,Student Residence Edge Beta,32.0,128.0,2000.0,edge_compute,Campus,8.5,3.5
+Media-Studio,Creative Media & Cloud Render,48.0,192.0,2000.0,edge_compute,Campus,1.5,1.5

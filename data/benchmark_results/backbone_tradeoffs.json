@@ -1,0 +1,26 @@
+{
+  "campus_network": {
+    "num_nodes": 16,
+    "physical_edges": 28,
+    "backbone_edges": 15,
+    "links_saved": 13,
+    "link_reduction_pct": 46.43,
+    "avg_physical_latency_ms": 3.81,
+    "avg_backbone_latency_ms": 4.5,
+    "average_stretch_factor": 1.166,
+    "maximum_stretch_factor": 1.88,
+    "total_mst_weight": 19.5
+  },
+  "regional_cloud": {
+    "num_nodes": 20,
+    "physical_edges": 23,
+    "backbone_edges": 19,
+    "links_saved": 4,
+    "link_reduction_pct": 17.39,
+    "avg_physical_latency_ms": 150.28,
+    "avg_backbone_latency_ms": 181.55,
+    "average_stretch_factor": 1.206,
+    "maximum_stretch_factor": 4.2,
+    "total_mst_weight": 783.0
+  }
+}
