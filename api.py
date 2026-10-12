@@ -5,10 +5,12 @@ Multi-Capacity Task Placement Schedulers, and Benchmarks.
 """
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import Dict, List, Optional, Any
 import time
+import os
 
 from core.graph import Graph
 from core.mst import prim_mst, kruskal_mst, extract_backbone_graph
@@ -50,6 +52,20 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/", response_class=FileResponse)
+def serve_dashboard():
+    """Serves the standalone interactive React & Tailwind dashboard."""
+    static_file = os.path.join(os.path.dirname(__file__), "static", "index.html")
+    if os.path.exists(static_file):
+        return FileResponse(static_file)
+    return FileResponse("static/index.html")
+
+@app.get("/docs/TECHNICAL_REPORT.html", response_class=FileResponse)
+def serve_report():
+    """Serves the publication-ready HTML technical report."""
+    report_file = os.path.join(os.path.dirname(__file__), "docs", "TECHNICAL_REPORT.html")
+    return FileResponse(report_file)
 
 # In-memory cached topologies
 TOPOLOGIES: Dict[str, Graph] = {
