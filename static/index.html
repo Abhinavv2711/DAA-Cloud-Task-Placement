@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cloud Task Placement Optimizer | Enterprise Dashboard</title>
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -14,7 +14,7 @@
             slate: {
               950: '#0B0F19',
               900: '#0F172A',
-              850: '#141E33',
+              850: '#131D31',
               800: '#1E293B',
               700: '#334155'
             }
@@ -23,787 +23,673 @@
       }
     }
   </script>
-  <!-- React 18 & Babel for standalone JSX execution -->
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <!-- Chart.js for Benchmarks -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
     body { font-family: 'Inter', sans-serif; }
     .font-mono { font-family: 'JetBrains Mono', monospace; }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen">
-  <div id="root"></div>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col md:flex-row overflow-hidden">
 
-  <script type="text/babel">
-    const { useState, useEffect, useRef } = React;
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="w-64 bg-slate-950 border-r border-slate-800 flex flex-col justify-between select-none shrink-0 h-screen">
+    <div>
+      <!-- Brand Header -->
+      <div class="p-5 border-b border-slate-800 flex items-center gap-3">
+        <div class="h-9 w-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-600/30 text-lg">
+          ☁️
+        </div>
+        <div>
+          <h1 className="font-semibold text-slate-100 text-sm tracking-wide">CloudPlacement</h1>
+          <p class="text-[10px] text-indigo-400 font-mono font-medium uppercase tracking-wider">DAA Research Engine</p>
+        </div>
+      </div>
 
-    // Fallback campus topology
-    const FALLBACK_CAMPUS_NODES = [
-      { node_id: 'Core-1', name: 'Main Data Center Core', tier: 'core', cpu_capacity: 128, ram_capacity: 512, x: 5.0, y: 8.0 },
-      { node_id: 'Core-2', name: 'Backup DR Core', tier: 'core', cpu_capacity: 128, ram_capacity: 512, x: 9.0, y: 8.0 },
-      { node_id: 'Dist-North', name: 'Distribution North', tier: 'aggregation', cpu_capacity: 64, ram_capacity: 256, x: 3.0, y: 6.0 },
-      { node_id: 'Dist-South', name: 'Distribution South', tier: 'aggregation', cpu_capacity: 64, ram_capacity: 256, x: 7.0, y: 6.0 },
-      { node_id: 'Dist-East', name: 'Distribution East', tier: 'aggregation', cpu_capacity: 64, ram_capacity: 256, x: 11.0, y: 6.0 },
-      { node_id: 'Dist-West', name: 'Distribution West', tier: 'aggregation', cpu_capacity: 64, ram_capacity: 256, x: 1.0, y: 6.0 },
-      { node_id: 'CS-Lab', name: 'CS Compute Cluster', tier: 'edge', cpu_capacity: 96, ram_capacity: 384, x: 2.0, y: 3.5 },
-      { node_id: 'Eng-HPC', name: 'Engineering Supercomputer', tier: 'edge', cpu_capacity: 128, ram_capacity: 512, x: 4.0, y: 3.5 },
-      { node_id: 'Science-DC', name: 'Natural Science Node', tier: 'edge', cpu_capacity: 64, ram_capacity: 256, x: 3.0, y: 1.5 },
-      { node_id: 'Admin-Server', name: 'Administration VM', tier: 'edge', cpu_capacity: 48, ram_capacity: 192, x: 6.0, y: 3.5 },
-      { node_id: 'Library-Edge', name: 'Digital Library Node', tier: 'edge', cpu_capacity: 32, ram_capacity: 128, x: 0.5, y: 3.5 },
-      { node_id: 'Medical-Edge', name: 'Hospital Datacenter', tier: 'edge', cpu_capacity: 96, ram_capacity: 384, x: 11.5, y: 3.5 },
-      { node_id: 'Biotech-Lab', name: 'Genomics Cluster', tier: 'edge', cpu_capacity: 64, ram_capacity: 256, x: 10.0, y: 1.5 },
-      { node_id: 'Hostel-DC-A', name: 'Residence Edge Alpha', tier: 'edge', cpu_capacity: 32, ram_capacity: 128, x: 7.5, y: 1.5 },
-      { node_id: 'Hostel-DC-B', name: 'Residence Edge Beta', tier: 'edge', cpu_capacity: 32, ram_capacity: 128, x: 8.5, y: 3.5 },
-      { node_id: 'Media-Studio', name: 'Creative Cloud Node', tier: 'edge', cpu_capacity: 48, ram_capacity: 192, x: 1.5, y: 1.5 }
-    ];
+      <!-- Navigation Links -->
+      <nav class="p-3 space-y-1 text-xs">
+        <div class="px-3 py-2 text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
+          OPTIMIZATION SUITE
+        </div>
+        <button onclick="switchTab('placement')" id="tab-btn-placement" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all bg-indigo-600/20 text-indigo-300 border border-indigo-500/30">
+          <div class="flex items-center gap-2.5"><span>📦</span><span>Task Simulation</span></div>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 border border-indigo-800">Active</span>
+        </button>
+        <button onclick="switchTab('topology')" id="tab-btn-topology" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900">
+          <div class="flex items-center gap-2.5"><span>🌐</span><span>Network Topologies</span></div>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-500 border border-slate-800">4 Presets</span>
+        </button>
+        <button onclick="switchTab('mst')" id="tab-btn-mst" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900">
+          <div class="flex items-center gap-2.5"><span>🌲</span><span>MST Backbone</span></div>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-500 border border-slate-800">Loop-Free</span>
+        </button>
+        <button onclick="switchTab('routing')" id="tab-btn-routing" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900">
+          <div class="flex items-center gap-2.5"><span>🧭</span><span>Shortest Routing</span></div>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-500 border border-slate-800">SSSP/APSP</span>
+        </button>
+        <button onclick="switchTab('benchmarks')" id="tab-btn-benchmarks" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900">
+          <div class="flex items-center gap-2.5"><span>📊</span><span>Empirical Metrics</span></div>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-500 border border-slate-800">Charts</span>
+        </button>
+        <button onclick="switchTab('docs')" id="tab-btn-docs" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900">
+          <div class="flex items-center gap-2.5"><span>📄</span><span>Technical Report</span></div>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-500 border border-slate-800">LaTeX</span>
+        </button>
+      </nav>
+    </div>
 
-    const FALLBACK_CAMPUS_EDGES = [
-      { u: 'Core-1', v: 'Core-2', weight: 0.5 },
-      { u: 'Core-1', v: 'Dist-North', weight: 1.2 },
-      { u: 'Core-1', v: 'Dist-West', weight: 1.5 },
-      { u: 'Core-1', v: 'Dist-South', weight: 1.8 },
-      { u: 'Core-2', v: 'Dist-South', weight: 1.2 },
-      { u: 'Core-2', v: 'Dist-East', weight: 1.4 },
-      { u: 'Core-2', v: 'Dist-North', weight: 1.9 },
-      { u: 'Dist-West', v: 'Dist-North', weight: 2.2 },
-      { u: 'Dist-North', v: 'Dist-South', weight: 2.0 },
-      { u: 'Dist-South', v: 'Dist-East', weight: 2.4 },
-      { u: 'Dist-North', v: 'CS-Lab', weight: 1.0 },
-      { u: 'Dist-North', v: 'Eng-HPC', weight: 0.9 },
-      { u: 'CS-Lab', v: 'Science-DC', weight: 2.1 },
-      { u: 'Eng-HPC', v: 'Science-DC', weight: 1.8 },
-      { u: 'Dist-West', v: 'Library-Edge', weight: 1.5 },
-      { u: 'Dist-West', v: 'Media-Studio', weight: 1.7 },
-      { u: 'Dist-South', v: 'Admin-Server', weight: 1.1 },
-      { u: 'Dist-South', v: 'Hostel-DC-A', weight: 2.5 },
-      { u: 'Dist-South', v: 'Hostel-DC-B', weight: 2.2 },
-      { u: 'Dist-East', v: 'Medical-Edge', weight: 1.0 },
-      { u: 'Dist-East', v: 'Biotech-Lab', weight: 1.3 }
-    ];
+    <!-- System Status Footer -->
+    <div class="p-4 border-t border-slate-900 bg-slate-950/80">
+      <div class="bg-slate-900 rounded-lg p-3 border border-slate-800 text-[11px]">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-slate-400">FastAPI Backend</span>
+          <div class="flex items-center gap-1.5">
+            <span id="api-status-dot" class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span id="api-status-text" class="font-mono text-slate-300">Online (:8000)</span>
+          </div>
+        </div>
+        <div class="flex justify-between text-slate-500">
+          <span>Engine Core</span>
+          <span class="font-mono text-slate-400">Python 3.11</span>
+        </div>
+      </div>
+    </div>
+  </aside>
 
-    function App() {
-      const [activeTab, setActiveTab] = useState('placement');
-      const [isLoading, setIsLoading] = useState(false);
-      const [apiOnline, setApiOnline] = useState(true);
+  <!-- MAIN WORKSPACE -->
+  <main class="flex-1 flex flex-col overflow-y-auto h-screen">
+    <!-- Header -->
+    <header class="h-16 border-b border-slate-800 px-8 flex items-center justify-between bg-slate-950/80 sticky top-0 z-20 backdrop-blur-md shrink-0">
+      <div class="flex items-center gap-3">
+        <h2 id="view-title" class="text-sm font-semibold text-slate-100">Task Simulation & Multi-Capacity Optimization</h2>
+        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">DAA Capstone</span>
+      </div>
+      <div class="text-xs font-mono text-slate-400 flex items-center gap-2">
+        <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+        <span>http://localhost:8000</span>
+      </div>
+    </header>
 
-      // Simulation Parameters
-      const [params, setParams] = useState({
-        topologyId: 'campus',
-        numTasks: 10,
-        trafficPattern: 'hotspot',
-        capacityTightness: 'normal',
-        algorithm: 'exact'
+    <!-- Content Body -->
+    <div class="p-8 space-y-6 max-w-7xl mx-auto w-full">
+
+      <!-- CONFIGURATION PANEL -->
+      <section id="config-panel" class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="text-indigo-400">⚙️</span>
+            <h3 class="text-xs font-semibold text-slate-100 uppercase tracking-wide">Workload & Topology Configuration</h3>
+          </div>
+          <span class="text-[11px] font-mono text-slate-500">FastAPI Simulation Controller</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mt-4">
+          <!-- Topology Selection -->
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1.5">Dataset Topology</label>
+            <select id="sel-topology" onchange="onTopologyChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+              <option value="campus">Campus Network Backbone (16 Nodes)</option>
+              <option value="fattree">Datacenter Fat-Tree (20 Nodes)</option>
+              <option value="regional">Regional Cloud Backbone (20 Nodes)</option>
+              <option value="waxman">Waxman Random Geometric (25 Nodes)</option>
+            </select>
+          </div>
+
+          <!-- Task Count Slider -->
+          <div>
+            <div class="flex justify-between items-center mb-1.5">
+              <label class="text-xs font-medium text-slate-300">VM Replicas / Tasks</label>
+              <span id="label-num-tasks" class="text-xs font-mono font-bold text-indigo-400 bg-indigo-950 px-2 py-0.5 rounded border border-indigo-800">10 Tasks</span>
+            </div>
+            <input id="slider-num-tasks" type="range" min="4" max="30" step="2" value="10" oninput="document.getElementById('label-num-tasks').innerText = this.value + ' Tasks'" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500" />
+            <div class="flex justify-between text-[10px] text-slate-500 mt-1 font-mono">
+              <span>4 Min</span><span>16 Mid</span><span>30 Stress</span>
+            </div>
+          </div>
+
+          <!-- Traffic & Tightness -->
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs font-medium text-slate-300 mb-1.5">Traffic Flow</label>
+              <select id="sel-traffic" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200">
+                <option value="hotspot">Hotspot (80/20)</option>
+                <option value="uniform">Uniform</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-300 mb-1.5">Cap Tightness</label>
+              <select id="sel-tightness" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200">
+                <option value="loose">Loose (150%)</option>
+                <option value="normal" selected>Normal (100%)</option>
+                <option value="tight">Tight (60%)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Placement Algorithm -->
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1.5">Solver Algorithm</label>
+            <select id="sel-algo" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+              <option value="exact">Exact Optimizer (Branch & Bound)</option>
+              <option value="dp">Dynamic Programming (Knapsack DP)</option>
+              <option value="gnt">Greedy Nearest Traffic (GNT)</option>
+              <option value="gld">Greedy Latency-Density (GLD)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-4 pt-4 border-t border-slate-800">
+          <button id="btn-run" onclick="triggerSimulation()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-medium shadow-lg shadow-indigo-600/30 flex items-center gap-2 transition-all">
+            <span>▶ Trigger Simulation</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TAB 1: PLACEMENT SIMULATION VIEW -->
+      <div id="view-placement" class="space-y-6">
+        <!-- KPI METRICS -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <span class="text-xs text-slate-400">Average Request Latency</span>
+            <div id="metric-avg-latency" class="text-2xl font-bold font-mono text-slate-100 mt-1">11.03 <span class="text-xs text-slate-500">ms</span></div>
+            <span id="metric-total-cost" class="text-[11px] text-slate-400 font-mono">Total Cost: 842.5</span>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <span class="text-xs text-slate-400">Placement Feasibility</span>
+            <div id="metric-placed" class="text-2xl font-bold font-mono text-emerald-400 mt-1">10 / 10</div>
+            <span class="text-[11px] text-emerald-400 font-medium">100% Capacity Feasible</span>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <span class="text-xs text-slate-400">Cluster CPU Saturation</span>
+            <div id="metric-cpu" class="text-2xl font-bold font-mono text-blue-400 mt-1">34.5%</div>
+            <div class="w-full bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
+              <div id="bar-cpu" class="bg-blue-500 h-full rounded-full" style="width: 34.5%"></div>
+            </div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <span class="text-xs text-slate-400">Solver Wall-Clock Time</span>
+            <div id="metric-runtime" class="text-2xl font-bold font-mono text-purple-400 mt-1">1.46 <span class="text-xs text-slate-500">ms</span></div>
+            <span id="metric-algo-name" class="text-[11px] text-slate-400 font-mono truncate">Exact Optimizer (B&B)</span>
+          </div>
+        </div>
+
+        <!-- SERVER HARDWARE ALLOCATION BARS -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <h4 class="text-xs font-semibold text-slate-200 uppercase tracking-wide mb-3">Server Capacity Saturation (CPU & RAM Cores)</h4>
+          <div id="server-bars-grid" class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- TOPOLOGY CANVAS -->
+        <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
+          <div class="px-5 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2">
+              <span class="font-semibold text-slate-200">Interactive Cloud Topology Canvas</span>
+              <span id="canvas-stats" class="text-slate-500 font-mono">(16 Servers, 28 Physical Links)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="toggleMstOverlay()" id="btn-mst-toggle" class="px-2.5 py-1 rounded text-[11px] font-medium bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                🌲 Backbone MST: ON
+              </button>
+              <button onclick="toggleWeightsOverlay()" id="btn-weight-toggle" class="px-2.5 py-1 rounded text-[11px] font-medium bg-slate-800 text-slate-400">
+                Weights: ON
+              </button>
+            </div>
+          </div>
+          <div class="relative h-[480px] w-full flex items-center justify-center p-2 bg-slate-950">
+            <svg id="svg-canvas" viewBox="0 0 800 450" class="w-full h-full select-none"></svg>
+            <div id="hover-tooltip" class="hidden absolute top-4 left-4 bg-slate-900/95 border border-slate-700 rounded-lg p-3 text-xs shadow-2xl pointer-events-none min-w-[180px]"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: TOPOLOGIES VIEW -->
+      <div id="view-topology" class="hidden space-y-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <h3 class="text-sm font-semibold text-slate-200 mb-2">Available Topologies in Memory</h3>
+          <div class="grid grid-cols-4 gap-4 mt-3 text-xs font-mono">
+            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800"><span class="text-slate-400 font-bold block mb-1">Campus Backbone</span><span>16 Nodes • 28 Links</span></div>
+            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800"><span class="text-slate-400 font-bold block mb-1">Fat-Tree DC (k=4)</span><span>20 Nodes • 32 Links</span></div>
+            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800"><span class="text-slate-400 font-bold block mb-1">Regional Cloud</span><span>20 Nodes • 23 Links</span></div>
+            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800"><span class="text-slate-400 font-bold block mb-1">Waxman Graph</span><span>25 Nodes • 50+ Links</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: MST BACKBONE VIEW -->
+      <div id="view-mst" class="hidden space-y-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+          <h3 class="text-sm font-semibold text-slate-100">🌲 Minimum Spanning Tree (MST) Backbone Synthesis</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            By synthesizing an MST backbone with Kruskal (O(E log E)) or Prim (O((V+E) log V)), cloud orchestrators eliminate switching loops and broadcast storms.
+          </p>
+          <div class="grid grid-cols-3 gap-4 text-xs font-mono">
+            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800"><span class="text-slate-500">Links Pruned:</span><p class="text-emerald-400 font-bold text-xl mt-1">46.43% Saved</p></div>
+            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800"><span class="text-slate-500">Latency Stretch:</span><p class="text-indigo-400 font-bold text-xl mt-1">1.166x (+16.6%)</p></div>
+            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800"><span class="text-slate-500">Tree Invariant:</span><p class="text-purple-400 font-bold text-xl mt-1">|V| - 1 Edges</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: ROUTING VIEW -->
+      <div id="view-routing" class="hidden space-y-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+          <h3 class="text-sm font-semibold text-slate-100">🧭 Shortest Path Routing (SSSP & APSP)</h3>
+          <div class="grid grid-cols-3 gap-4 text-xs mt-3">
+            <div>
+              <label class="block text-slate-400 mb-1">Source Server</label>
+              <select id="route-src" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-200 font-mono"></select>
+            </div>
+            <div>
+              <label class="block text-slate-400 mb-1">Destination Server</label>
+              <select id="route-dst" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-200 font-mono"></select>
+            </div>
+            <div class="flex items-end">
+              <button onclick="computeShortestRoute()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg shadow-md transition-all">
+                Trace Route (Dijkstra)
+              </button>
+            </div>
+          </div>
+          <div id="route-result-box" class="hidden bg-slate-950 p-4 rounded-lg border border-slate-800 text-xs font-mono space-y-2">
+            <div class="flex justify-between"><span class="text-slate-400">Recommended Shortest Route:</span><span id="route-path-text" class="text-emerald-400 font-bold"></span></div>
+            <div class="flex justify-between"><span class="text-slate-400">End-to-End Latency:</span><span id="route-cost-text" class="text-indigo-400 font-bold"></span></div>
+            <div class="flex justify-between"><span class="text-slate-400">Execution Time:</span><span id="route-time-text" class="text-purple-400"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 5: BENCHMARKS VIEW -->
+      <div id="view-benchmarks" class="hidden space-y-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+          <h3 class="text-sm font-semibold text-slate-100">📊 Empirical Complexity & Scalability Benchmarks</h3>
+          <p class="text-xs text-slate-400">Wall-clock execution times and optimality gaps measured across varying task volumes (K in [5, 20]).</p>
+          <div class="h-80 w-full mt-4 bg-slate-950 p-4 rounded-xl border border-slate-800">
+            <canvas id="benchmark-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 6: DOCUMENTATION VIEW -->
+      <div id="view-docs" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-8 space-y-4 text-xs text-slate-300">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+          <h3 class="text-sm font-bold text-slate-100">Algorithmic Optimization of Cloud Task Placement</h3>
+          <a href="/docs/TECHNICAL_REPORT.html" target="_blank" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded text-xs font-semibold">
+            Open Full HTML Report ↗
+          </a>
+        </div>
+        <p class="leading-relaxed">
+          This project formalizes VM replica placement as an Integer Linear Program minimizing weighted client communication latency subject to CPU and RAM capacities.
+        </p>
+        <div class="bg-slate-950 p-4 rounded border border-slate-800 font-mono text-[11px] text-slate-200 space-y-1">
+          <div>min sum_{t in T} sum_{s in V} x_{t,s} * sum_{c in V} lambda(c, t) * dist(c, s)</div>
+          <div>subject to: sum_s x_{t,s} = 1, sum_t x_{t,s} * d_cpu(t) &lt;= C_cpu(s), sum_t x_{t,s} * d_ram(t) &lt;= C_ram(s)</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    let currentTab = 'placement';
+    let nodes = [];
+    let edges = [];
+    let mstEdges = [];
+    let placements = {};
+    let isMstVisible = true;
+    let isWeightsVisible = true;
+    let chartInstance = null;
+
+    // Switch Tabs
+    function switchTab(tabId) {
+      currentTab = tabId;
+      const tabs = ['placement', 'topology', 'mst', 'routing', 'benchmarks', 'docs'];
+      tabs.forEach(t => {
+        document.getElementById(`view-${t}`).classList.add('hidden');
+        const btn = document.getElementById(`tab-btn-${t}`);
+        btn.className = 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900';
       });
 
-      // Data States
-      const [nodes, setNodes] = useState(FALLBACK_CAMPUS_NODES);
-      const [edges, setEdges] = useState(FALLBACK_CAMPUS_EDGES);
-      const [mstEdges, setMstEdges] = useState([]);
-      const [placementResult, setPlacementResult] = useState(null);
-      const [showMst, setShowMst] = useState(true);
-      const [showWeights, setShowWeights] = useState(true);
-      const [hoveredNode, setHoveredNode] = useState(null);
+      document.getElementById(`view-${tabId}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+      activeBtn.className = 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all bg-indigo-600/20 text-indigo-300 border border-indigo-500/30';
 
-      // Routing State
-      const [routeSrc, setRouteSrc] = useState('Core-1');
-      const [routeDst, setRouteDst] = useState('Medical-Edge');
-      const [routeResult, setRouteResult] = useState(null);
-
-      // Benchmark Chart Reference
-      const chartRef = useRef(null);
-
-      // Check API Health
-      useEffect(() => {
-        fetch('/api/topologies')
-          .then(res => res.ok ? setApiOnline(true) : setApiOnline(false))
-          .catch(() => setApiOnline(false));
-      }, []);
-
-      // Fetch Topology when selection changes
-      useEffect(() => {
-        fetchTopology(params.topologyId);
-      }, [params.topologyId]);
-
-      const fetchTopology = async (topoId) => {
-        try {
-          const res = await fetch(`/api/topology/${topoId}`);
-          if (res.ok) {
-            const data = await res.json();
-            setNodes(data.nodes);
-            setEdges(data.edges);
-          }
-        } catch (e) {
-          console.warn('API topology fetch failed, using memory cache', e);
-        }
+      const titles = {
+        placement: 'Task Simulation & Multi-Capacity Optimization',
+        topology: 'Physical Infrastructure Topologies',
+        mst: 'Minimum Spanning Tree (MST) Backbone Synthesis',
+        routing: 'Adaptive Shortest-Path Routing Engine',
+        benchmarks: 'Empirical Complexity Benchmarks & Plots',
+        docs: 'Academic Technical Report & Correctness Proofs'
       };
+      document.getElementById('view-title').innerText = titles[tabId];
 
-      // Execute Simulation
-      const handleRunSimulation = async () => {
-        setIsLoading(true);
-        try {
-          const [pRes, mRes] = await Promise.all([
-            fetch('/api/simulate-placement', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                topology_id: params.topologyId,
-                num_tasks: params.numTasks,
-                traffic_pattern: params.trafficPattern,
-                capacity_tightness: params.capacityTightness,
-                algorithm: params.algorithm
-              })
-            }),
-            fetch('/api/mst', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ topology_id: params.topologyId, algorithm: 'kruskal' })
-            })
-          ]);
+      if (tabId === 'benchmarks') {
+        renderBenchmarkChart();
+      }
+    }
 
-          if (pRes.ok) {
-            const data = await pRes.json();
-            setPlacementResult(data);
-          }
-          if (mRes.ok) {
-            const mData = await mRes.json();
-            setMstEdges(mData.mst_edges);
-          }
-        } catch (err) {
-          console.error('Simulation error:', err);
-        } finally {
-          setIsLoading(false);
+    // Load Topology
+    async function onTopologyChange() {
+      const topoId = document.getElementById('sel-topology').value;
+      try {
+        const res = await fetch(`/api/topology/${topoId}`);
+        if (res.ok) {
+          const data = await res.json();
+          nodes = data.nodes;
+          edges = data.edges;
+          populateRouteSelects();
+          renderCanvas();
         }
-      };
+      } catch (err) {
+        console.error('Topology fetch failed', err);
+      }
+    }
 
-      // Compute Shortest Route
-      const handleComputeRoute = async () => {
-        try {
-          const res = await fetch('/api/route', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              topology_id: params.topologyId,
-              source: routeSrc,
-              target: routeDst,
-              algorithm: 'dijkstra'
-            })
-          });
-          if (res.ok) {
-            const data = await res.json();
-            setRouteResult(data);
-          }
-        } catch (e) {
-          console.error('Routing error:', e);
-        }
-      };
+    // Populate Route Select Dropdowns
+    function populateRouteSelects() {
+      const srcSel = document.getElementById('route-src');
+      const dstSel = document.getElementById('route-dst');
+      srcSel.innerHTML = '';
+      dstSel.innerHTML = '';
+      nodes.forEach((n, idx) => {
+        srcSel.innerHTML += `<option value="${n.node_id}">${n.node_id} (${n.name})</option>`;
+        dstSel.innerHTML += `<option value="${n.node_id}" ${idx === 5 ? 'selected' : ''}>${n.node_id} (${n.name})</option>`;
+      });
+    }
 
-      // Initial Run on mount
-      useEffect(() => {
-        handleRunSimulation();
-      }, []);
+    // Toggle Overlays
+    function toggleMstOverlay() {
+      isMstVisible = !isMstVisible;
+      document.getElementById('btn-mst-toggle').innerText = `🌲 Backbone MST: ${isMstVisible ? 'ON' : 'OFF'}`;
+      renderCanvas();
+    }
+    function toggleWeightsOverlay() {
+      isWeightsVisible = !isWeightsVisible;
+      document.getElementById('btn-weight-toggle').innerText = `Weights: ${isWeightsVisible ? 'ON' : 'OFF'}`;
+      renderCanvas();
+    }
 
-      // Chart.js render on Benchmark tab
-      useEffect(() => {
-        if (activeTab === 'benchmarks' && chartRef.current) {
-          const ctx = chartRef.current.getContext('2d');
-          if (window.myBenchmarkChart) window.myBenchmarkChart.destroy();
+    // Render Canvas
+    function renderCanvas(highlightPath = []) {
+      const svg = document.getElementById('svg-canvas');
+      if (!nodes.length) return;
 
-          window.myBenchmarkChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels: ['5 Tasks', '10 Tasks', '15 Tasks', '20 Tasks'],
-              datasets: [
-                {
-                  label: 'Exact Optimizer (Optimum Latency ms)',
-                  data: [12.62, 10.87, 11.93, 13.10],
-                  backgroundColor: '#10B981'
-                },
-                {
-                  label: 'Greedy Nearest Traffic (ms)',
-                  data: [12.62, 10.90, 12.00, 13.21],
-                  backgroundColor: '#6366F1'
-                },
-                {
-                  label: 'Knapsack DP (ms)',
-                  data: [12.98, 11.02, 12.68, 14.60],
-                  backgroundColor: '#F59E0B'
-                }
-              ]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                legend: { labels: { color: '#94A3B8', font: { family: 'Inter', size: 11 } } }
-              },
-              scales: {
-                x: { ticks: { color: '#64748B' }, grid: { color: '#1E293B' } },
-                y: { ticks: { color: '#64748B' }, grid: { color: '#1E293B' } }
-              }
-            }
-          });
-        }
-      }, [activeTab]);
+      document.getElementById('canvas-stats').innerText = `(${nodes.length} Servers, ${edges.length} Physical Links)`;
 
-      // Coordinate scaling for SVG
       const minX = Math.min(...nodes.map(n => n.x), 0);
       const maxX = Math.max(...nodes.map(n => n.x), 10);
       const minY = Math.min(...nodes.map(n => n.y), 0);
       const maxY = Math.max(...nodes.map(n => n.y), 10);
       const scaleX = x => 60 + ((x - minX) / (maxX - minX || 1)) * 680;
       const scaleY = y => 390 - ((y - minY) / (maxY - minY || 1)) * 320;
+
       const nodeMap = new Map(nodes.map(n => [n.node_id, n]));
       const mstSet = new Set(mstEdges.map(e => [e.u, e.v].sort().join('--')));
       const pathSet = new Set();
-      if (routeResult && routeResult.path) {
-        for (let i = 0; i < routeResult.path.length - 1; i++) {
-          pathSet.add([routeResult.path[i], routeResult.path[i + 1]].sort().join('--'));
-        }
+      for (let i = 0; i < highlightPath.length - 1; i++) {
+        pathSet.add([highlightPath[i], highlightPath[i + 1]].sort().join('--'));
       }
 
-      // Count tasks on nodes
       const taskCounts = {};
-      if (placementResult && placementResult.placements) {
-        Object.values(placementResult.placements).forEach(sid => {
-          taskCounts[sid] = (taskCounts[sid] || 0) + 1;
+      Object.values(placements).forEach(sid => {
+        taskCounts[sid] = (taskCounts[sid] || 0) + 1;
+      });
+
+      let svgHtml = `
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1E293B" stroke-width="0.5" />
+          </pattern>
+        </defs>
+        <rect width="800" height="450" fill="url(#grid)" />
+      `;
+
+      // Draw base edges
+      edges.forEach(e => {
+        const u = nodeMap.get(e.u);
+        const v = nodeMap.get(e.v);
+        if (!u || !v) return;
+        const edgeKey = [e.u, e.v].sort().join('--');
+        const isMst = isMstVisible && mstSet.has(edgeKey);
+        const isPath = pathSet.has(edgeKey);
+        if (isMst || isPath) return;
+
+        const x1 = scaleX(u.x), y1 = scaleY(u.y), x2 = scaleX(v.x), y2 = scaleY(v.y);
+        svgHtml += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#334155" stroke-width="1.2" stroke-opacity="0.7" />`;
+        if (isWeightsVisible) {
+          svgHtml += `<text x="${(x1+x2)/2}" y="${(y1+y2)/2 - 3}" fill="#64748B" font-size="9" font-family="monospace" text-anchor="middle">${e.weight}ms</text>`;
+        }
+      });
+
+      // Draw MST edges (Red)
+      if (isMstVisible) {
+        mstEdges.forEach(e => {
+          const u = nodeMap.get(e.u);
+          const v = nodeMap.get(e.v);
+          if (!u || !v) return;
+          const x1 = scaleX(u.x), y1 = scaleY(u.y), x2 = scaleX(v.x), y2 = scaleY(v.y);
+          svgHtml += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#F43F5E" stroke-width="3" stroke-linecap="round" stroke-opacity="0.9" />`;
+          if (isWeightsVisible) {
+            svgHtml += `<text x="${(x1+x2)/2}" y="${(y1+y2)/2 - 4}" fill="#FDA4AF" font-size="9" font-weight="bold" font-family="monospace" text-anchor="middle">${e.weight}ms</text>`;
+          }
         });
       }
 
-      return (
-        <div className="flex h-screen overflow-hidden bg-slate-950 text-slate-100">
-          {/* SIDEBAR */}
-          <aside className="w-64 bg-slate-950 border-r border-slate-800 flex flex-col justify-between">
-            <div>
-              {/* Brand Header */}
-              <div className="p-5 border-b border-slate-800/80 flex items-center gap-3">
-                <div className="h-9 w-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-600/30 font-bold">
-                  ☁️
-                </div>
-                <div>
-                  <h1 className="font-semibold text-slate-100 text-sm tracking-wide">CloudPlacement</h1>
-                  <p className="text-[10px] text-indigo-400 font-mono font-medium uppercase">DAA Research Engine</p>
-                </div>
-              </div>
+      // Draw active path (Cyan)
+      for (let i = 0; i < highlightPath.length - 1; i++) {
+        const u = nodeMap.get(highlightPath[i]);
+        const v = nodeMap.get(highlightPath[i + 1]);
+        if (u && v) {
+          svgHtml += `<line x1="${scaleX(u.x)}" y1="${scaleY(u.y)}" x2="${scaleX(v.x)}" y2="${scaleY(v.y)}" stroke="#38BDF8" stroke-width="4.5" stroke-linecap="round" />`;
+        }
+      }
 
-              {/* Navigation Items */}
-              <nav className="p-3 space-y-1 text-xs">
-                <div className="px-3 py-2 text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
-                  OPTIMIZATION SUITE
-                </div>
-                {[
-                  { id: 'placement', label: 'Task Simulation', icon: '📦', badge: 'Active' },
-                  { id: 'topology', label: 'Network Topology', icon: '🌐', badge: '4 Presets' },
-                  { id: 'mst', label: 'MST Backbone', icon: '🌲', badge: 'Loop-Free' },
-                  { id: 'routing', label: 'Shortest Routing', icon: '🧭', badge: 'SSSP/APSP' },
-                  { id: 'benchmarks', label: 'Empirical Metrics', icon: '📊', badge: 'Charts' },
-                  { id: 'docs', label: 'Technical Report', icon: '📄', badge: '12 Pages' }
-                ].map(item => (
-                  <button
-                    key={item.id}
-                    onClick={() => setActiveTab(item.id)}
-                    className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all ${
-                      activeTab === item.id
-                        ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/30'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <span>{item.icon}</span>
-                      <span>{item.label}</span>
-                    </div>
-                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800">
-                      {item.badge}
-                    </span>
-                  </button>
-                ))}
-              </nav>
-            </div>
+      // Draw nodes
+      nodes.forEach(n => {
+        const cx = scaleX(n.x);
+        const cy = scaleY(n.y);
+        const assigned = taskCounts[n.node_id] || 0;
+        let fill = '#3B82F6';
+        if (n.tier === 'aggregation') fill = '#10B981';
+        if (n.tier.includes('edge')) fill = '#F59E0B';
 
-            {/* Footer API Health */}
-            <div className="p-4 border-t border-slate-900 bg-slate-950/80">
-              <div className="bg-slate-900 rounded-lg p-3 border border-slate-800 text-[11px]">
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-slate-400">FastAPI Backend</span>
-                  <div className="flex items-center gap-1.5">
-                    <span className={`h-2 w-2 rounded-full ${apiOnline ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`} />
-                    <span className="font-mono text-slate-300">{apiOnline ? 'Online (8000)' : 'Offline'}</span>
-                  </div>
-                </div>
-                <div className="flex justify-between text-slate-500">
-                  <span>Engine Core</span>
-                  <span className="font-mono text-slate-400">Python 3.11</span>
-                </div>
-              </div>
-            </div>
-          </aside>
+        if (assigned > 0) {
+          svgHtml += `<circle cx="${cx}" cy="${cy}" r="15" fill="none" stroke="#A855F7" stroke-width="2" stroke-dasharray="3 3" />`;
+        }
+        svgHtml += `
+          <g class="cursor-pointer" onmouseenter="showTooltip('${n.node_id}', ${cx}, ${cy})" onmouseleave="hideTooltip()">
+            <circle cx="${cx}" cy="${cy}" r="9" fill="${fill}" stroke="#0F172A" stroke-width="2" />
+            <text x="${cx}" y="${cy + 17}" fill="#F1F5F9" font-size="10" font-weight="600" text-anchor="middle">${n.node_id}</text>
+            ${assigned > 0 ? `
+              <circle cx="${cx + 8}" cy="${cy - 8}" r="6" fill="#9333EA" />
+              <text x="${cx + 8}" y="${cy - 6}" fill="#FFFFFF" font-size="8" font-weight="bold" text-anchor="middle">${assigned}</text>
+            ` : ''}
+          </g>
+        `;
+      });
 
-          {/* MAIN WORKSPACE */}
-          <main className="flex-1 flex flex-col overflow-y-auto">
-            {/* Header */}
-            <header className="h-16 border-b border-slate-800 px-8 flex items-center justify-between bg-slate-950/80 sticky top-0 z-20 backdrop-blur-md">
-              <div className="flex items-center gap-3">
-                <h2 className="text-sm font-semibold text-slate-100">
-                  {activeTab === 'placement' && 'Task & VM Replica Placement Simulation'}
-                  {activeTab === 'topology' && 'Physical Infrastructure Topologies'}
-                  {activeTab === 'mst' && 'Minimum Spanning Tree (MST) Backbone Synthesis'}
-                  {activeTab === 'routing' && 'Adaptive Shortest-Path Routing Engine'}
-                  {activeTab === 'benchmarks' && 'Empirical Complexity Benchmarks & Plots'}
-                  {activeTab === 'docs' && 'Academic Technical Report & Correctness Proofs'}
-                </h2>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">
-                  DAA Capstone
-                </span>
-              </div>
-              <div className="text-xs font-mono text-slate-400 flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-emerald-400"></span>
-                <span>Active Server: http://localhost:8000</span>
-              </div>
-            </header>
-
-            {/* Dashboard Content */}
-            <div className="p-8 space-y-6 max-w-7xl mx-auto w-full">
-              {/* CONFIGURATION PANEL (Shown on Placement & Topology tabs) */}
-              {(activeTab === 'placement' || activeTab === 'topology') && (
-                <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg">
-                  <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-                    <div className="flex items-center gap-2">
-                      <span className="text-indigo-400">⚙️</span>
-                      <h3 className="text-xs font-semibold text-slate-100 uppercase tracking-wide">Workload & Topology Configuration</h3>
-                    </div>
-                    <span className="text-[11px] font-mono text-slate-500">FastAPI Simulation Controller</span>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mt-4">
-                    {/* Dataset */}
-                    <div>
-                      <label className="block text-xs font-medium text-slate-300 mb-1.5">Dataset Topology</label>
-                      <select
-                        value={params.topologyId}
-                        onChange={e => setParams({ ...params, topologyId: e.target.value })}
-                        className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                      >
-                        <option value="campus">Campus Network Backbone (16 Nodes)</option>
-                        <option value="fattree">Datacenter Fat-Tree (20 Nodes)</option>
-                        <option value="regional">Regional Cloud Backbone (20 Nodes)</option>
-                        <option value="waxman">Waxman Random Geometric (25 Nodes)</option>
-                      </select>
-                    </div>
-
-                    {/* Task Count */}
-                    <div>
-                      <div className="flex justify-between items-center mb-1.5">
-                        <label className="text-xs font-medium text-slate-300">VM Replicas / Tasks</label>
-                        <span className="text-xs font-mono font-bold text-indigo-400 bg-indigo-950 px-2 py-0.5 rounded border border-indigo-800">
-                          {params.numTasks} Tasks
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min="4"
-                        max="30"
-                        step="2"
-                        value={params.numTasks}
-                        onChange={e => setParams({ ...params, numTasks: parseInt(e.target.value) })}
-                        className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
-                      />
-                    </div>
-
-                    {/* Traffic & Tightness */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <div>
-                        <label className="block text-xs font-medium text-slate-300 mb-1.5">Traffic Flow</label>
-                        <select
-                          value={params.trafficPattern}
-                          onChange={e => setParams({ ...params, trafficPattern: e.target.value })}
-                          className="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200"
-                        >
-                          <option value="hotspot">Hotspot (80/20)</option>
-                          <option value="uniform">Uniform</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-xs font-medium text-slate-300 mb-1.5">Cap Tightness</label>
-                        <select
-                          value={params.capacityTightness}
-                          onChange={e => setParams({ ...params, capacityTightness: e.target.value })}
-                          className="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200"
-                        >
-                          <option value="loose">Loose (150%)</option>
-                          <option value="normal">Normal (100%)</option>
-                          <option value="tight">Tight (60%)</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    {/* Algorithm */}
-                    <div>
-                      <label className="block text-xs font-medium text-slate-300 mb-1.5">Solver Algorithm</label>
-                      <select
-                        value={params.algorithm}
-                        onChange={e => setParams({ ...params, algorithm: e.target.value })}
-                        className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                      >
-                        <option value="exact">Exact Optimizer (Branch & Bound)</option>
-                        <option value="dp">Dynamic Programming (Knapsack DP)</option>
-                        <option value="gnt">Greedy Nearest Traffic (GNT)</option>
-                        <option value="gld">Greedy Latency-Density (GLD)</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Trigger Button */}
-                  <div className="flex justify-end mt-4 pt-4 border-t border-slate-800">
-                    <button
-                      onClick={handleRunSimulation}
-                      disabled={isLoading}
-                      className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-medium shadow-lg shadow-indigo-600/30 flex items-center gap-2 transition-all"
-                    >
-                      {isLoading ? (
-                        <>
-                          <span className="animate-spin text-sm">🔄</span>
-                          <span>Solving Multi-Capacity Placement...</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>▶ Trigger Simulation</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* TAB 1: PLACEMENT SIMULATION VIEW */}
-              {activeTab === 'placement' && (
-                <div className="space-y-6">
-                  {isLoading ? (
-                    <div className="bg-slate-900 border border-slate-800 rounded-xl p-12 text-center flex flex-col items-center justify-center animate-pulse">
-                      <div className="text-3xl animate-spin mb-3">🔄</div>
-                      <h4 className="text-sm font-semibold text-slate-200">Executing Multi-Dimensional Knapsack Solver</h4>
-                      <p className="text-xs text-slate-400 font-mono mt-1">Invoking Python Backend (Shortest-Paths & Branch-and-Bound)...</p>
-                    </div>
-                  ) : placementResult && (
-                    <>
-                      {/* Metric Cards */}
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                          <span className="text-xs text-slate-400">Average Request Latency</span>
-                          <div className="text-2xl font-bold font-mono text-slate-100 mt-1">
-                            {placementResult.average_latency_ms} <span className="text-xs text-slate-500">ms</span>
-                          </div>
-                          <span className="text-[11px] text-slate-400 font-mono">Total Cost: {placementResult.total_latency}</span>
-                        </div>
-
-                        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                          <span className="text-xs text-slate-400">Placement Feasibility</span>
-                          <div className="text-2xl font-bold font-mono text-emerald-400 mt-1">
-                            {placementResult.placed_count} / {placementResult.placed_count + placementResult.unplaced_count}
-                          </div>
-                          <span className="text-[11px] text-emerald-400 font-medium">100% Capacity Feasible</span>
-                        </div>
-
-                        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                          <span className="text-xs text-slate-400">Cluster CPU Saturation</span>
-                          <div className="text-2xl font-bold font-mono text-blue-400 mt-1">
-                            {placementResult.cpu_utilization_pct}%
-                          </div>
-                          <div className="w-full bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
-                            <div className="bg-blue-500 h-full rounded-full" style={{ width: `${Math.min(100, placementResult.cpu_utilization_pct)}%` }} />
-                          </div>
-                        </div>
-
-                        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                          <span className="text-xs text-slate-400">Solver Wall-Clock Time</span>
-                          <div className="text-2xl font-bold font-mono text-purple-400 mt-1">
-                            {placementResult.execution_time_ms} <span className="text-xs text-slate-500">ms</span>
-                          </div>
-                          <span className="text-[11px] text-slate-400 font-mono truncate">{placementResult.algorithm}</span>
-                        </div>
-                      </div>
-
-                      {/* Server Load Hardware Bars */}
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-                        <h4 className="text-xs font-semibold text-slate-200 uppercase tracking-wide mb-3">Server Capacity Saturation (CPU & RAM Cores)</h4>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                          {placementResult.servers.slice(0, 8).map(s => (
-                            <div key={s.server_id} className="bg-slate-950 p-3 rounded-lg border border-slate-800 text-xs">
-                              <div className="flex justify-between font-semibold text-slate-200 mb-1">
-                                <span>{s.server_id}</span>
-                                <span className="text-[10px] font-mono text-slate-400">{s.cpu_util_pct}% Load</span>
-                              </div>
-                              <div className="w-full bg-slate-800 h-1 rounded-full overflow-hidden mb-1.5">
-                                <div className="bg-blue-500 h-full rounded-full" style={{ width: `${Math.min(100, s.cpu_util_pct)}%` }} />
-                              </div>
-                              <div className="flex justify-between text-[10px] text-slate-400 font-mono">
-                                <span>CPU: {s.cpu_used}/{s.cpu_capacity}</span>
-                                <span>RAM: {s.ram_used}/{s.ram_capacity}G</span>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </>
-                  )}
-
-                  {/* SVG TOPOLOGY CANVAS */}
-                  <div className="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
-                    <div className="px-5 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-2">
-                        <span className="font-semibold text-slate-200">Interactive Cloud Topology Canvas</span>
-                        <span className="text-slate-500 font-mono">({nodes.length} Servers, {edges.length} Physical Links)</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => setShowMst(!showMst)}
-                          className={`px-2.5 py-1 rounded text-[11px] font-medium transition-all ${
-                            showMst ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30' : 'bg-slate-800 text-slate-400'
-                          }`}
-                        >
-                          🌲 Backbone MST
-                        </button>
-                        <button
-                          onClick={() => setShowWeights(!showWeights)}
-                          className="px-2.5 py-1 rounded text-[11px] font-medium bg-slate-800 text-slate-400 hover:text-slate-200"
-                        >
-                          {showWeights ? 'Hide Weights' : 'Show Weights'}
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="relative h-[480px] w-full flex items-center justify-center p-2 bg-slate-950">
-                      <svg viewBox="0 0 800 450" className="w-full h-full select-none">
-                        {/* Base Edges */}
-                        {edges.map((e, idx) => {
-                          const u = nodeMap.get(e.u);
-                          const v = nodeMap.get(e.v);
-                          if (!u || !v) return null;
-                          const edgeKey = [e.u, e.v].sort().join('--');
-                          const isMst = showMst && mstSet.has(edgeKey);
-                          const isPath = pathSet.has(edgeKey);
-                          if (isMst || isPath) return null;
-
-                          const x1 = scaleX(u.x), y1 = scaleY(u.y), x2 = scaleX(v.x), y2 = scaleY(v.y);
-                          return (
-                            <g key={`edge-${idx}`}>
-                              <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#334155" strokeWidth="1.2" strokeOpacity="0.7" />
-                              {showWeights && (
-                                <text x={(x1 + x2) / 2} y={(y1 + y2) / 2 - 3} fill="#64748B" fontSize="9" fontFamily="monospace" textAnchor="middle">
-                                  {e.weight}ms
-                                </text>
-                              )}
-                            </g>
-                          );
-                        })}
-
-                        {/* MST Backbone Edges (Red) */}
-                        {showMst && mstEdges.map((e, idx) => {
-                          const u = nodeMap.get(e.u);
-                          const v = nodeMap.get(e.v);
-                          if (!u || !v) return null;
-                          const x1 = scaleX(u.x), y1 = scaleY(u.y), x2 = scaleX(v.x), y2 = scaleY(v.y);
-                          return (
-                            <g key={`mst-${idx}`}>
-                              <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#F43F5E" strokeWidth="3" strokeLinecap="round" strokeOpacity="0.9" />
-                              {showWeights && (
-                                <text x={(x1 + x2) / 2} y={(y1 + y2) / 2 - 4} fill="#FDA4AF" fontSize="9" fontWeight="bold" fontFamily="monospace" textAnchor="middle">
-                                  {e.weight}ms
-                                </text>
-                              )}
-                            </g>
-                          );
-                        })}
-
-                        {/* Nodes */}
-                        {nodes.map(n => {
-                          const cx = scaleX(n.x);
-                          const cy = scaleY(n.y);
-                          const assigned = taskCounts[n.node_id] || 0;
-                          let fill = '#3B82F6';
-                          if (n.tier === 'aggregation') fill = '#10B981';
-                          if (n.tier.includes('edge')) fill = '#F59E0B';
-
-                          return (
-                            <g
-                              key={n.node_id}
-                              className="cursor-pointer transition-transform hover:scale-110"
-                              onMouseEnter={() => setHoveredNode(n)}
-                              onMouseLeave={() => setHoveredNode(null)}
-                            >
-                              {assigned > 0 && (
-                                <circle cx={cx} cy={cy} r="14" fill="none" stroke="#A855F7" strokeWidth="2" strokeDasharray="3 3" />
-                              )}
-                              <circle cx={cx} cy={cy} r="9" fill={fill} stroke="#0F172A" strokeWidth="2" />
-                              <text x={cx} y={cy + 16} fill="#F1F5F9" fontSize="10" fontWeight="600" textAnchor="middle">
-                                {n.node_id}
-                              </text>
-                              {assigned > 0 && (
-                                <g>
-                                  <circle cx={cx + 8} cy={cy - 8} r="6" fill="#9333EA" />
-                                  <text x={cx + 8} y={cy - 6} fill="#FFFFFF" fontSize="8" fontWeight="bold" textAnchor="middle">
-                                    {assigned}
-                                  </text>
-                                </g>
-                              )}
-                            </g>
-                          );
-                        })}
-                      </svg>
-
-                      {/* Tooltip */}
-                      {hoveredNode && (
-                        <div className="absolute top-4 left-4 bg-slate-900/95 border border-slate-700 rounded-lg p-3 text-xs shadow-2xl pointer-events-none min-w-[180px]">
-                          <div className="font-semibold text-slate-100 flex justify-between">
-                            <span>{hoveredNode.name}</span>
-                            <span className="text-[10px] font-mono px-1 py-0.5 rounded bg-slate-800 text-indigo-300 uppercase">{hoveredNode.tier}</span>
-                          </div>
-                          <div className="mt-1.5 space-y-1 font-mono text-[11px] text-slate-300">
-                            <div className="flex justify-between"><span>CPU:</span><span className="text-emerald-400">{hoveredNode.cpu_capacity} Cores</span></div>
-                            <div className="flex justify-between"><span>RAM:</span><span className="text-indigo-400">{hoveredNode.ram_capacity} GB</span></div>
-                            <div className="flex justify-between"><span>Placed Tasks:</span><span className="text-purple-400 font-bold">{taskCounts[hoveredNode.node_id] || 0} Replicas</span></div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* TAB 2: TOPOLOGY ONLY VIEW */}
-              {activeTab === 'topology' && (
-                <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-                  <h3 className="text-sm font-semibold text-slate-200 mb-2">Available Topologies in Memory</h3>
-                  <div className="grid grid-cols-4 gap-4 mt-3 text-xs font-mono">
-                    <div className="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                      <span className="text-slate-400 font-bold block mb-1">Campus Backbone</span>
-                      <span>16 Nodes • 28 Links</span>
-                    </div>
-                    <div className="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                      <span className="text-slate-400 font-bold block mb-1">Fat-Tree DC (k=4)</span>
-                      <span>20 Nodes • 32 Links</span>
-                    </div>
-                    <div className="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                      <span className="text-slate-400 font-bold block mb-1">Regional Cloud</span>
-                      <span>20 Nodes • 23 Links</span>
-                    </div>
-                    <div className="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                      <span className="text-slate-400 font-bold block mb-1">Waxman Graph</span>
-                      <span>25 Nodes • 50+ Links</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* TAB 3: MST BACKBONE VIEW */}
-              {activeTab === 'mst' && (
-                <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
-                  <h3 className="text-sm font-semibold text-slate-100">🌲 Minimum Spanning Tree (MST) Backbone Synthesis</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    By synthesizing an MST backbone with Kruskal ($O(E \log E)$) or Prim ($O((V+E)\log V)$), cloud orchestrators eliminate switching loops and broadcast storms.
-                  </p>
-                  <div className="grid grid-cols-3 gap-4 text-xs font-mono">
-                    <div className="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                      <span className="text-slate-500">Links Pruned:</span>
-                      <p className="text-emerald-400 font-bold text-xl mt-1">46.43% Saved</p>
-                    </div>
-                    <div className="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                      <span className="text-slate-500">Latency Stretch:</span>
-                      <p className="text-indigo-400 font-bold text-xl mt-1">1.166x (+16.6%)</p>
-                    </div>
-                    <div className="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                      <span className="text-slate-500">Tree Invariant:</span>
-                      <p className="text-purple-400 font-bold text-xl mt-1">|V| - 1 Edges</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* TAB 4: ROUTING ENGINE VIEW */}
-              {activeTab === 'routing' && (
-                <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
-                  <h3 className="text-sm font-semibold text-slate-100">🧭 Shortest Path Routing (SSSP & APSP)</h3>
-                  <div className="grid grid-cols-3 gap-4 text-xs mt-3">
-                    <div>
-                      <label className="block text-slate-400 mb-1">Source Server</label>
-                      <select value={routeSrc} onChange={e => setRouteSrc(e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-200 font-mono">
-                        {nodes.map(n => <option key={n.node_id} value={n.node_id}>{n.node_id} ({n.name})</option>)}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-slate-400 mb-1">Destination Server</label>
-                      <select value={routeDst} onChange={e => setRouteDst(e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-200 font-mono">
-                        {nodes.map(n => <option key={n.node_id} value={n.node_id}>{n.node_id} ({n.name})</option>)}
-                      </select>
-                    </div>
-                    <div className="flex items-end">
-                      <button onClick={handleComputeRoute} className="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg shadow-md transition-all">
-                        Trace Route (Dijkstra)
-                      </button>
-                    </div>
-                  </div>
-
-                  {routeResult && (
-                    <div className="bg-slate-950 p-4 rounded-lg border border-slate-800 mt-4 text-xs font-mono space-y-2">
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">Recommended Shortest Route:</span>
-                        <span className="text-emerald-400 font-bold">{routeResult.path.join(' ➔ ')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">End-to-End Latency:</span>
-                        <span className="text-indigo-400 font-bold">{routeResult.latency_ms} ms ({routeResult.hop_count} Hops)</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">Execution Time:</span>
-                        <span className="text-purple-400">{routeResult.execution_time_ms} ms</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* TAB 5: BENCHMARKS VIEW */}
-              {activeTab === 'benchmarks' && (
-                <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
-                  <h3 className="text-sm font-semibold text-slate-100">📊 Empirical Complexity & Scalability Benchmarks</h3>
-                  <p className="text-xs text-slate-400">
-                    Wall-clock execution times and optimality gaps measured across varying task volumes ($K \in [5, 20]$).
-                  </p>
-                  <div className="h-80 w-full mt-4 bg-slate-950 p-4 rounded-xl border border-slate-800">
-                    <canvas ref={chartRef}></canvas>
-                  </div>
-                </div>
-              )}
-
-              {/* TAB 6: DOCUMENTATION VIEW */}
-              {activeTab === 'docs' && (
-                <div className="bg-slate-900 border border-slate-800 rounded-xl p-8 space-y-4 text-xs text-slate-300">
-                  <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                    <h3 className="text-sm font-bold text-slate-100">Algorithmic Optimization of Cloud Task Placement</h3>
-                    <a href="/docs/TECHNICAL_REPORT.html" target="_blank" className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded text-xs font-semibold">
-                      Open HTML Report ↗
-                    </a>
-                  </div>
-                  <p className="leading-relaxed">
-                    This project formalizes VM replica placement as an Integer Linear Program minimizing weighted client communication latency subject to CPU and RAM capacities.
-                  </p>
-                  <div className="bg-slate-950 p-4 rounded border border-slate-800 font-mono text-[11px] text-slate-200">
-                    $$\min \sum_{t \in T} \sum_{s \in V} x_{t, s} \sum_{c \in V} \lambda(c, t) \cdot D(c, s)$$
-                    $$\text{s.t.} \quad \sum_s x_{t, s} = 1, \quad \sum_t x_{t, s} d_{\text{cpu}}(t) \le C_{\text{cpu}}(s), \quad \sum_t x_{t, s} d_{\text{ram}}(t) \le C_{\text{ram}}(s)$$
-                  </div>
-                </div>
-              )}
-            </div>
-          </main>
-        </div>
-      );
+      svg.innerHTML = svgHtml;
     }
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    // Tooltips
+    function showTooltip(nodeId, cx, cy) {
+      const node = nodes.find(n => n.node_id === nodeId);
+      if (!node) return;
+      const count = Object.values(placements).filter(s => s === nodeId).length;
+      const tip = document.getElementById('hover-tooltip');
+      tip.innerHTML = `
+        <div class="font-semibold text-slate-100 flex justify-between">
+          <span>${node.name}</span>
+          <span class="text-[10px] font-mono px-1 py-0.5 rounded bg-slate-800 text-indigo-300 uppercase">${node.tier}</span>
+        </div>
+        <div class="mt-1.5 space-y-1 font-mono text-[11px] text-slate-300">
+          <div class="flex justify-between"><span>CPU:</span><span class="text-emerald-400">${node.cpu_capacity} Cores</span></div>
+          <div class="flex justify-between"><span>RAM:</span><span class="text-indigo-400">${node.ram_capacity} GB</span></div>
+          <div class="flex justify-between"><span>Tasks Placed:</span><span class="text-purple-400 font-bold">${count} Replicas</span></div>
+        </div>
+      `;
+      tip.classList.remove('hidden');
+    }
+    function hideTooltip() {
+      document.getElementById('hover-tooltip').classList.add('hidden');
+    }
+
+    // Trigger Simulation
+    async function triggerSimulation() {
+      const btn = document.getElementById('btn-run');
+      btn.innerHTML = `<span class="animate-spin text-sm">🔄</span><span>Solving...</span>`;
+      btn.disabled = true;
+
+      const topoId = document.getElementById('sel-topology').value;
+      const numTasks = parseInt(document.getElementById('slider-num-tasks').value);
+      const traffic = document.getElementById('sel-traffic').value;
+      const tightness = document.getElementById('sel-tightness').value;
+      const algo = document.getElementById('sel-algo').value;
+
+      try {
+        const [pRes, mRes] = await Promise.all([
+          fetch('/api/simulate-placement', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              topology_id: topoId,
+              num_tasks: numTasks,
+              traffic_pattern: traffic,
+              capacity_tightness: tightness,
+              algorithm: algo
+            })
+          }),
+          fetch('/api/mst', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ topology_id: topoId, algorithm: 'kruskal' })
+          })
+        ]);
+
+        if (pRes.ok) {
+          const pData = await pRes.json();
+          placements = pData.placements;
+
+          document.getElementById('metric-avg-latency').innerHTML = `${pData.average_latency_ms} <span class="text-xs text-slate-500">ms</span>`;
+          document.getElementById('metric-total-cost').innerText = `Total Cost: ${pData.total_latency}`;
+          document.getElementById('metric-placed').innerText = `${pData.placed_count} / ${pData.placed_count + pData.unplaced_count}`;
+          document.getElementById('metric-cpu').innerText = `${pData.cpu_utilization_pct}%`;
+          document.getElementById('bar-cpu').style.width = `${Math.min(100, pData.cpu_utilization_pct)}%`;
+          document.getElementById('metric-runtime').innerHTML = `${pData.execution_time_ms} <span class="text-xs text-slate-500">ms</span>`;
+          document.getElementById('metric-algo-name').innerText = pData.algorithm;
+
+          // Render hardware bars
+          const grid = document.getElementById('server-bars-grid');
+          grid.innerHTML = '';
+          pData.servers.slice(0, 8).forEach(s => {
+            grid.innerHTML += `
+              <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-xs">
+                <div class="flex justify-between font-semibold text-slate-200 mb-1">
+                  <span>${s.server_id}</span>
+                  <span class="text-[10px] font-mono text-slate-400">${s.cpu_util_pct}% Load</span>
+                </div>
+                <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden mb-1.5">
+                  <div class="bg-blue-500 h-full rounded-full" style="width: ${Math.min(100, s.cpu_util_pct)}%"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono">
+                  <span>CPU: ${s.cpu_used}/${s.cpu_capacity}</span>
+                  <span>RAM: ${s.ram_used}/${s.ram_capacity}G</span>
+                </div>
+              </div>
+            `;
+          });
+        }
+
+        if (mRes.ok) {
+          const mData = await mRes.json();
+          mstEdges = mData.mst_edges;
+        }
+
+        renderCanvas();
+      } catch (err) {
+        console.error('Simulation failed', err);
+      } finally {
+        btn.innerHTML = `<span>▶ Trigger Simulation</span>`;
+        btn.disabled = false;
+      }
+    }
+
+    // Compute Route
+    async function computeShortestRoute() {
+      const topoId = document.getElementById('sel-topology').value;
+      const src = document.getElementById('route-src').value;
+      const dst = document.getElementById('route-dst').value;
+
+      try {
+        const res = await fetch('/api/route', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            topology_id: topoId,
+            source: src,
+            target: dst,
+            algorithm: 'dijkstra'
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('route-result-box').classList.remove('hidden');
+          document.getElementById('route-path-text').innerText = data.path.join(' ➔ ');
+          document.getElementById('route-cost-text').innerText = `${data.latency_ms} ms (${data.hop_count} Hops)`;
+          document.getElementById('route-time-text').innerText = `${data.execution_time_ms} ms`;
+          renderCanvas(data.path);
+        }
+      } catch (e) {
+        console.error('Route error', e);
+      }
+    }
+
+    // Benchmark Chart
+    function renderBenchmarkChart() {
+      const ctx = document.getElementById('benchmark-chart').getContext('2d');
+      if (chartInstance) chartInstance.destroy();
+
+      chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['5 Tasks', '10 Tasks', '15 Tasks', '20 Tasks'],
+          datasets: [
+            {
+              label: 'Exact Optimizer (Optimum Latency ms)',
+              data: [12.62, 10.87, 11.93, 13.10],
+              backgroundColor: '#10B981'
+            },
+            {
+              label: 'Greedy Nearest Traffic (ms)',
+              data: [12.62, 10.90, 12.00, 13.21],
+              backgroundColor: '#6366F1'
+            },
+            {
+              label: 'Knapsack DP (ms)',
+              data: [12.98, 11.02, 12.68, 14.60],
+              backgroundColor: '#F59E0B'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#94A3B8', font: { family: 'Inter', size: 11 } } }
+          },
+          scales: {
+            x: { ticks: { color: '#64748B' }, grid: { color: '#1E293B' } },
+            y: { ticks: { color: '#64748B' }, grid: { color: '#1E293B' } }
+          }
+        }
+      });
+    }
+
+    // Startup
+    window.addEventListener('DOMContentLoaded', () => {
+      onTopologyChange().then(() => triggerSimulation());
+    });
   </script>
 </body>
 </html>
