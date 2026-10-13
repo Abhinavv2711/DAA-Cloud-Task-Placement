@@ -3,20 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cloud Task Placement Optimizer | Enterprise Dashboard</title>
+  <title>Cloud Task Placement | DAA Research Engine</title>
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Satoshi Font from Fontshare -->
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,800,700,500,400,300,1&display=swap" rel="stylesheet">
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
+          fontFamily: {
+            satoshi: ['Satoshi', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
           colors: {
-            slate: {
-              950: '#0B0F19',
-              900: '#0F172A',
-              850: '#131D31',
-              800: '#1E293B',
-              700: '#334155'
+            brand: {
+              dark: '#231212',
+              lilac: '#e3e2f7',
+              offwhite: '#f4f4f4',
+              white: '#ffffff',
+              frame: '#c8d4df',
+              slate: '#64748b'
             }
           }
         }
@@ -24,109 +33,259 @@
     }
   </script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
-    body { font-family: 'Inter', sans-serif; }
+    body { font-family: 'Satoshi', system-ui, -apple-system, sans-serif; }
     .font-mono { font-family: 'JetBrains Mono', monospace; }
+    /* Smooth custom slider */
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      border-radius: 9999px;
+      background: #231212;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(35, 18, 18, 0.3);
+      border: 2px solid #ffffff;
+    }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col md:flex-row overflow-hidden">
+<body class="bg-[#c8d4df] p-3 sm:p-6 lg:p-8 min-h-screen text-[#231212] font-satoshi antialiased selection:bg-[#e3e2f7] selection:text-[#231212]">
 
-  <!-- SIDEBAR NAVIGATION -->
-  <aside class="w-64 bg-slate-950 border-r border-slate-800 flex flex-col justify-between select-none shrink-0 h-screen">
-    <div>
-      <!-- Brand Header -->
-      <div class="p-5 border-b border-slate-800 flex items-center gap-3">
-        <div class="h-9 w-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-600/30 text-lg">
-          ☁️
+  <!-- MAIN FLOATING DASHBOARD CONTAINER -->
+  <div class="max-w-[1520px] mx-auto bg-white rounded-[32px] sm:rounded-[44px] shadow-2xl overflow-hidden border border-white/70 relative">
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="px-6 sm:px-10 py-6 border-b border-[#f0f0f0] flex flex-wrap items-center justify-between gap-4 bg-white/95 sticky top-0 z-30 backdrop-blur-md">
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-full bg-[#231212] text-white flex items-center justify-center font-bold text-lg shadow-md">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+          </svg>
         </div>
         <div>
-          <h1 className="font-semibold text-slate-100 text-sm tracking-wide">CloudPlacement</h1>
-          <p class="text-[10px] text-indigo-400 font-mono font-medium uppercase tracking-wider">DAA Research Engine</p>
+          <span class="text-lg font-bold text-[#231212] tracking-tight">CLOUD PLACEMENT</span>
+          <span class="block text-[10px] tracking-widest text-[#71717a] uppercase font-medium">DAA Algorithm Engine</span>
         </div>
       </div>
 
-      <!-- Navigation Links -->
-      <nav class="p-3 space-y-1 text-xs">
-        <div class="px-3 py-2 text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
-          OPTIMIZATION SUITE
-        </div>
-        <button onclick="switchTab('placement')" id="tab-btn-placement" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all bg-indigo-600/20 text-indigo-300 border border-indigo-500/30">
-          <div class="flex items-center gap-2.5"><span>📦</span><span>Task Simulation</span></div>
-          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 border border-indigo-800">Active</span>
+      <!-- Navigation Pill Tabs -->
+      <nav class="flex items-center gap-1.5 sm:gap-2 bg-[#f4f4f4] p-1.5 rounded-full text-xs font-semibold overflow-x-auto">
+        <button onclick="switchTab('simulation')" id="nav-btn-simulation" class="px-4 py-2 rounded-full transition-all bg-[#231212] text-white shadow-sm">
+          Simulation
         </button>
-        <button onclick="switchTab('topology')" id="tab-btn-topology" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900">
-          <div class="flex items-center gap-2.5"><span>🌐</span><span>Network Topologies</span></div>
-          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-500 border border-slate-800">4 Presets</span>
+        <button onclick="switchTab('topologies')" id="nav-btn-topologies" class="px-4 py-2 rounded-full transition-all text-[#231212] hover:bg-white/80">
+          Topologies
         </button>
-        <button onclick="switchTab('mst')" id="tab-btn-mst" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900">
-          <div class="flex items-center gap-2.5"><span>🌲</span><span>MST Backbone</span></div>
-          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-500 border border-slate-800">Loop-Free</span>
+        <button onclick="switchTab('mst')" id="nav-btn-mst" class="px-4 py-2 rounded-full transition-all text-[#231212] hover:bg-white/80">
+          MST Backbone
         </button>
-        <button onclick="switchTab('routing')" id="tab-btn-routing" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900">
-          <div class="flex items-center gap-2.5"><span>🧭</span><span>Shortest Routing</span></div>
-          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-500 border border-slate-800">SSSP/APSP</span>
+        <button onclick="switchTab('routing')" id="nav-btn-routing" class="px-4 py-2 rounded-full transition-all text-[#231212] hover:bg-white/80">
+          Routing
         </button>
-        <button onclick="switchTab('benchmarks')" id="tab-btn-benchmarks" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900">
-          <div class="flex items-center gap-2.5"><span>📊</span><span>Empirical Metrics</span></div>
-          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-500 border border-slate-800">Charts</span>
-        </button>
-        <button onclick="switchTab('docs')" id="tab-btn-docs" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900">
-          <div class="flex items-center gap-2.5"><span>📄</span><span>Technical Report</span></div>
-          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-500 border border-slate-800">LaTeX</span>
+        <button onclick="switchTab('benchmarks')" id="nav-btn-benchmarks" class="px-4 py-2 rounded-full transition-all text-[#231212] hover:bg-white/80">
+          Benchmarks
         </button>
       </nav>
-    </div>
 
-    <!-- System Status Footer -->
-    <div class="p-4 border-t border-slate-900 bg-slate-950/80">
-      <div class="bg-slate-900 rounded-lg p-3 border border-slate-800 text-[11px]">
-        <div class="flex items-center justify-between mb-1.5">
-          <span class="text-slate-400">FastAPI Backend</span>
-          <div class="flex items-center gap-1.5">
-            <span id="api-status-dot" class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span id="api-status-text" class="font-mono text-slate-300">Online (:8000)</span>
-          </div>
-        </div>
-        <div class="flex justify-between text-slate-500">
-          <span>Engine Core</span>
-          <span class="font-mono text-slate-400">Python 3.11</span>
-        </div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- MAIN WORKSPACE -->
-  <main class="flex-1 flex flex-col overflow-y-auto h-screen">
-    <!-- Header -->
-    <header class="h-16 border-b border-slate-800 px-8 flex items-center justify-between bg-slate-950/80 sticky top-0 z-20 backdrop-blur-md shrink-0">
+      <!-- Action Button & Backend Status -->
       <div class="flex items-center gap-3">
-        <h2 id="view-title" class="text-sm font-semibold text-slate-100">Task Simulation & Multi-Capacity Optimization</h2>
-        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">DAA Capstone</span>
-      </div>
-      <div class="text-xs font-mono text-slate-400 flex items-center gap-2">
-        <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
-        <span>http://localhost:8000</span>
+        <div class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#f4f4f4] text-[11px] font-mono text-[#52525b]">
+          <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>FastAPI :8000</span>
+        </div>
+        <a href="/docs/TECHNICAL_REPORT.html" target="_blank" class="px-5 py-2.5 rounded-full border border-[#231212] text-[#231212] hover:bg-[#231212] hover:text-white transition-all text-xs font-semibold tracking-wide flex items-center gap-1.5 shadow-sm">
+          <span>Technical Report</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
       </div>
     </header>
 
-    <!-- Content Body -->
-    <div class="p-8 space-y-6 max-w-7xl mx-auto w-full">
+    <!-- HERO SECTION (Satoshi Style: Plan Your Escape Aesthetic) -->
+    <section class="px-6 sm:px-12 pt-10 pb-12 relative overflow-hidden bg-white">
+      <!-- Background Decorative Organic Ribbon Wave -->
+      <svg class="absolute -right-20 top-10 w-[700px] h-[340px] text-[#e3e2f7] pointer-events-none opacity-60 hidden lg:block" fill="none" viewBox="0 0 700 340">
+        <path d="M50 180 C 180 50, 320 280, 480 140 C 600 20, 680 120, 720 220" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+      </svg>
 
-      <!-- CONFIGURATION PANEL -->
-      <section id="config-panel" class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg">
-        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
-          <div class="flex items-center gap-2">
-            <span class="text-indigo-400">⚙️</span>
-            <h3 class="text-xs font-semibold text-slate-100 uppercase tracking-wide">Workload & Topology Configuration</h3>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+        <!-- Left Hero Column -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e3e2f7] text-[#231212] text-[11px] font-semibold tracking-wider uppercase">
+            <span>Graph Optimization</span>
+            <span class="text-xs">•</span>
+            <span>Provable Correctness</span>
           </div>
-          <span class="text-[11px] font-mono text-slate-500">FastAPI Simulation Controller</span>
+
+          <h1 class="text-5xl sm:text-6xl xl:text-7xl font-black text-[#231212] tracking-tight leading-[0.96]">
+            OPTIMIZE YOUR<br/>
+            <span class="font-normal italic text-[#231212]">CLOUD MESH</span>
+          </h1>
+
+          <p class="text-[#52525b] text-sm sm:text-base max-w-xl leading-relaxed">
+            Formally place virtual machine replicas across multi-tier topologies to minimize end-to-end communication latency while strictly respecting multi-dimensional hardware capacities (CPU Cores & RAM).
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <button onclick="scrollToWorkspace()" class="px-7 py-3.5 rounded-full bg-[#231212] text-white hover:bg-[#3d2424] transition-all text-xs font-semibold tracking-wide shadow-lg shadow-[#231212]/20 flex items-center gap-2">
+              <span>Run Simulation</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+            </button>
+            <button onclick="switchTab('mst')" class="px-6 py-3.5 rounded-full bg-[#f4f4f4] text-[#231212] hover:bg-[#e3e2f7] transition-all text-xs font-semibold">
+              Explore MST Backbone
+            </button>
+          </div>
+
+          <!-- Quick Metrics Bar -->
+          <div class="pt-6 border-t border-[#f0f0f0] grid grid-cols-3 gap-4 max-w-lg">
+            <div>
+              <div class="text-2xl sm:text-3xl font-black text-[#231212]">46.4%</div>
+              <div class="text-[11px] text-[#71717a] font-medium mt-0.5">Links Pruned (MST)</div>
+            </div>
+            <div>
+              <div class="text-2xl sm:text-3xl font-black text-[#231212]">1.16x</div>
+              <div class="text-[11px] text-[#71717a] font-medium mt-0.5">Avg Latency Stretch</div>
+            </div>
+            <div>
+              <div class="text-2xl sm:text-3xl font-black text-[#231212]">&lt; 1%</div>
+              <div class="text-[11px] text-[#71717a] font-medium mt-0.5">Optimality Gap</div>
+            </div>
+          </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mt-4">
-          <!-- Topology Selection -->
+        <!-- Right Hero Column: Sleek Console Showcase Mockup (Phone Frame from Reference) -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="w-full max-w-[340px] bg-[#231212] rounded-[48px] p-3 shadow-2xl shadow-slate-900/30 border-4 border-[#231212] relative">
+            <!-- Screen Notch / Dynamic Island -->
+            <div class="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-5 bg-[#231212] rounded-full z-20"></div>
+
+            <!-- Inner Screen Body -->
+            <div class="bg-white rounded-[40px] p-5 pt-8 overflow-hidden min-h-[460px] flex flex-col justify-between">
+              <!-- Top Header -->
+              <div>
+                <div class="flex justify-between items-center text-[10px] text-slate-400 font-mono mb-4">
+                  <span>9:41</span>
+                  <span>5G Cloud Mesh</span>
+                </div>
+
+                <div class="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 class="text-base font-bold text-[#231212]">Cluster Monitor</h3>
+                    <p class="text-[10px] text-[#71717a]">Live Topology Telemetry</p>
+                  </div>
+                  <span class="px-2 py-0.5 rounded-full bg-[#e3e2f7] text-[#231212] text-[10px] font-bold">Campus DC</span>
+                </div>
+
+                <!-- Mini Cards inside phone mockup -->
+                <div class="space-y-2.5">
+                  <div class="bg-[#f4f4f4] rounded-2xl p-3 flex justify-between items-center">
+                    <div>
+                      <div class="text-[10px] text-[#71717a] uppercase font-mono">Average Latency</div>
+                      <div id="mockup-latency" class="text-lg font-black text-[#231212]">11.03 ms</div>
+                    </div>
+                    <span class="h-8 w-8 rounded-full bg-[#e3e2f7] flex items-center justify-center text-xs">⚡</span>
+                  </div>
+
+                  <div class="bg-[#f4f4f4] rounded-2xl p-3 flex justify-between items-center">
+                    <div>
+                      <div class="text-[10px] text-[#71717a] uppercase font-mono">Capacity Integrity</div>
+                      <div class="text-xs font-bold text-emerald-600">100% Feasible</div>
+                    </div>
+                    <span class="h-8 w-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs">✓</span>
+                  </div>
+
+                  <div class="bg-[#f4f4f4] rounded-2xl p-3">
+                    <div class="flex justify-between text-[10px] text-[#71717a] mb-1 font-mono">
+                      <span>Cluster CPU Load</span>
+                      <span id="mockup-cpu-pct">34.5%</span>
+                    </div>
+                    <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                      <div id="mockup-cpu-bar" class="bg-[#231212] h-full rounded-full" style="width: 34.5%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bottom CTA in phone mockup -->
+              <div class="pt-4 border-t border-[#f0f0f0]">
+                <button onclick="scrollToWorkspace()" class="w-full py-2.5 rounded-full bg-[#231212] text-white text-xs font-semibold text-center hover:bg-[#3d2424] transition-all">
+                  Inspect Solver Output
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: WHY CHOOSE US (PASTEL CARDS AESTHETIC FROM REFERENCE IMAGE 3) -->
+    <section class="px-6 sm:px-12 py-12 bg-[#fbfbfb] border-y border-[#f0f0f0]">
+      <div class="max-w-xl mb-8">
+        <h2 class="text-3xl font-black text-[#231212] tracking-tight">WHY ALGORITHMIC PLACEMENT MATTERS</h2>
+        <p class="text-xs text-[#71717a] mt-1">Mathematical optimization over ad-hoc heuristic placement</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Card 1: Soft Lilac -->
+        <div class="bg-[#e3e2f7] rounded-[28px] p-7 flex flex-col justify-between transition-transform hover:-translate-y-1 shadow-sm">
+          <div class="h-10 w-10 rounded-full bg-white flex items-center justify-center text-[#231212] text-lg font-bold mb-6">
+            🌲
+          </div>
           <div>
-            <label class="block text-xs font-medium text-slate-300 mb-1.5">Dataset Topology</label>
-            <select id="sel-topology" onchange="onTopologyChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+            <h3 class="text-lg font-bold text-[#231212] tracking-tight mb-2">LOOP-FREE MST BACKBONE</h3>
+            <p class="text-xs text-[#52525b] leading-relaxed">
+              Kruskal's & Prim's algorithms eliminate switching loops and broadcast storms. Empirical benchmarks demonstrate <strong>46.4% link pruning</strong> with merely <strong>1.16x latency stretch</strong>.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 2: Off-white -->
+        <div class="bg-[#f4f4f4] rounded-[28px] p-7 flex flex-col justify-between transition-transform hover:-translate-y-1 shadow-sm border border-[#ececec]">
+          <div class="h-10 w-10 rounded-full bg-white flex items-center justify-center text-[#231212] text-lg font-bold mb-6">
+            🎒
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-[#231212] tracking-tight mb-2">MULTI-CAPACITY KNAPSACK</h3>
+            <p class="text-xs text-[#52525b] leading-relaxed">
+              Respects dual CPU and RAM hardware saturation limits. Solved via 0/1 Knapsack DP latency savings and Branch-and-Bound exact pruning to guarantee zero capacity violations.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 3: Light Sage/Sky -->
+        <div class="bg-[#e8f2ea] rounded-[28px] p-7 flex flex-col justify-between transition-transform hover:-translate-y-1 shadow-sm">
+          <div class="h-10 w-10 rounded-full bg-white flex items-center justify-center text-[#231212] text-lg font-bold mb-6">
+            🧭
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-[#231212] tracking-tight mb-2">ADAPTIVE ROUTING ENGINE</h3>
+            <p class="text-xs text-[#52525b] leading-relaxed">
+              Dijkstra and Bellman-Ford SSSP with negative weight credits; Floyd-Warshall and Johnson APSP reweighting ensuring optimal traffic routing between all ingress clients.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: INTERACTIVE WORKSPACE & SIMULATION CONTROLS -->
+    <main id="workspace-container" class="px-6 sm:px-12 py-12 space-y-8 bg-white">
+
+      <!-- CONFIGURATION DOCK -->
+      <div class="bg-[#f4f4f4] rounded-[32px] p-6 sm:p-8 border border-[#e5e5e5] shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-[#e5e5e5]">
+          <div>
+            <h3 class="text-base font-bold text-[#231212]">Simulation Configuration</h3>
+            <p class="text-xs text-[#71717a]">Select target infrastructure topology, replica count, and algorithmic solver</p>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-white text-[11px] font-mono text-[#52525b] border border-[#e5e5e5]">
+            Engine Parameters
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+          <!-- Topology -->
+          <div>
+            <label class="block text-xs font-bold text-[#231212] mb-2 uppercase tracking-wider">Topology Preset</label>
+            <select id="sel-topology" onchange="onTopologyChange()" class="w-full bg-white border border-[#d4d4d8] rounded-2xl px-4 py-2.5 text-xs text-[#231212] focus:outline-none focus:ring-2 focus:ring-[#231212]">
               <option value="campus">Campus Network Backbone (16 Nodes)</option>
               <option value="fattree">Datacenter Fat-Tree (20 Nodes)</option>
               <option value="regional">Regional Cloud Backbone (20 Nodes)</option>
@@ -134,41 +293,41 @@
             </select>
           </div>
 
-          <!-- Task Count Slider -->
+          <!-- Task Count -->
           <div>
-            <div class="flex justify-between items-center mb-1.5">
-              <label class="text-xs font-medium text-slate-300">VM Replicas / Tasks</label>
-              <span id="label-num-tasks" class="text-xs font-mono font-bold text-indigo-400 bg-indigo-950 px-2 py-0.5 rounded border border-indigo-800">10 Tasks</span>
+            <div class="flex justify-between items-center mb-2">
+              <label class="text-xs font-bold text-[#231212] uppercase tracking-wider">Task Replicas</label>
+              <span id="label-num-tasks" class="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-[#231212] text-white">10 Tasks</span>
             </div>
-            <input id="slider-num-tasks" type="range" min="4" max="30" step="2" value="10" oninput="document.getElementById('label-num-tasks').innerText = this.value + ' Tasks'" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500" />
-            <div class="flex justify-between text-[10px] text-slate-500 mt-1 font-mono">
-              <span>4 Min</span><span>16 Mid</span><span>30 Stress</span>
+            <input id="slider-num-tasks" type="range" min="4" max="30" step="2" value="10" oninput="document.getElementById('label-num-tasks').innerText = this.value + ' Tasks'" class="w-full h-2 bg-slate-300 rounded-lg appearance-none cursor-pointer mt-2" />
+            <div class="flex justify-between text-[10px] text-[#71717a] mt-1.5 font-mono">
+              <span>4 Min</span><span>16 Balanced</span><span>30 Stress</span>
             </div>
           </div>
 
           <!-- Traffic & Tightness -->
-          <div class="grid grid-cols-2 gap-2">
+          <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1.5">Traffic Flow</label>
-              <select id="sel-traffic" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200">
-                <option value="hotspot">Hotspot (80/20)</option>
+              <label class="block text-xs font-bold text-[#231212] mb-2 uppercase tracking-wider">Traffic</label>
+              <select id="sel-traffic" class="w-full bg-white border border-[#d4d4d8] rounded-2xl px-3 py-2.5 text-xs text-[#231212]">
+                <option value="hotspot">Hotspot 80/20</option>
                 <option value="uniform">Uniform</option>
               </select>
             </div>
             <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1.5">Cap Tightness</label>
-              <select id="sel-tightness" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200">
-                <option value="loose">Loose (150%)</option>
-                <option value="normal" selected>Normal (100%)</option>
-                <option value="tight">Tight (60%)</option>
+              <label class="block text-xs font-bold text-[#231212] mb-2 uppercase tracking-wider">Capacity</label>
+              <select id="sel-tightness" class="w-full bg-white border border-[#d4d4d8] rounded-2xl px-3 py-2.5 text-xs text-[#231212]">
+                <option value="loose">Loose 150%</option>
+                <option value="normal" selected>Normal 100%</option>
+                <option value="tight">Tight 60%</option>
               </select>
             </div>
           </div>
 
-          <!-- Placement Algorithm -->
+          <!-- Algorithm Selection -->
           <div>
-            <label class="block text-xs font-medium text-slate-300 mb-1.5">Solver Algorithm</label>
-            <select id="sel-algo" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+            <label class="block text-xs font-bold text-[#231212] mb-2 uppercase tracking-wider">Optimization Solver</label>
+            <select id="sel-algo" class="w-full bg-white border border-[#d4d4d8] rounded-2xl px-4 py-2.5 text-xs text-[#231212] focus:outline-none focus:ring-2 focus:ring-[#231212]">
               <option value="exact">Exact Optimizer (Branch & Bound)</option>
               <option value="dp">Dynamic Programming (Knapsack DP)</option>
               <option value="gnt">Greedy Nearest Traffic (GNT)</option>
@@ -177,160 +336,179 @@
           </div>
         </div>
 
-        <div class="flex justify-end mt-4 pt-4 border-t border-slate-800">
-          <button id="btn-run" onclick="triggerSimulation()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-medium shadow-lg shadow-indigo-600/30 flex items-center gap-2 transition-all">
-            <span>▶ Trigger Simulation</span>
+        <div class="flex justify-end mt-6 pt-5 border-t border-[#e5e5e5]">
+          <button id="btn-run" onclick="triggerSimulation()" class="px-8 py-3 rounded-full bg-[#231212] text-white hover:bg-[#3d2424] text-xs font-bold tracking-wide shadow-md flex items-center gap-2 transition-all">
+            <span>▶ Execute Simulation</span>
           </button>
         </div>
-      </section>
+      </div>
 
-      <!-- TAB 1: PLACEMENT SIMULATION VIEW -->
-      <div id="view-placement" class="space-y-6">
-        <!-- KPI METRICS -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-            <span class="text-xs text-slate-400">Average Request Latency</span>
-            <div id="metric-avg-latency" class="text-2xl font-bold font-mono text-slate-100 mt-1">11.03 <span class="text-xs text-slate-500">ms</span></div>
-            <span id="metric-total-cost" class="text-[11px] text-slate-400 font-mono">Total Cost: 842.5</span>
+      <!-- TAB PANEL 1: PLACEMENT SIMULATION RESULTS -->
+      <div id="tab-content-simulation" class="space-y-8">
+        <!-- KPI METRICS SUMMARY -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div class="bg-[#f4f4f4] rounded-3xl p-6 border border-[#e5e5e5]">
+            <div class="text-[11px] font-bold text-[#71717a] uppercase tracking-wider">Average Latency</div>
+            <div id="metric-avg-latency" class="text-3xl font-black text-[#231212] mt-2">11.03 <span class="text-xs font-normal text-[#71717a]">ms</span></div>
+            <div id="metric-total-cost" class="text-[11px] text-[#71717a] font-mono mt-1">Total Cost: 842.5</div>
           </div>
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-            <span class="text-xs text-slate-400">Placement Feasibility</span>
-            <div id="metric-placed" class="text-2xl font-bold font-mono text-emerald-400 mt-1">10 / 10</div>
-            <span class="text-[11px] text-emerald-400 font-medium">100% Capacity Feasible</span>
+
+          <div class="bg-[#f4f4f4] rounded-3xl p-6 border border-[#e5e5e5]">
+            <div class="text-[11px] font-bold text-[#71717a] uppercase tracking-wider">Feasibility Status</div>
+            <div id="metric-placed" class="text-3xl font-black text-[#231212] mt-2">10 / 10</div>
+            <div class="text-[11px] text-emerald-600 font-bold mt-1">✓ 100% Capacity Feasible</div>
           </div>
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-            <span class="text-xs text-slate-400">Cluster CPU Saturation</span>
-            <div id="metric-cpu" class="text-2xl font-bold font-mono text-blue-400 mt-1">34.5%</div>
-            <div class="w-full bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
-              <div id="bar-cpu" class="bg-blue-500 h-full rounded-full" style="width: 34.5%"></div>
+
+          <div class="bg-[#f4f4f4] rounded-3xl p-6 border border-[#e5e5e5]">
+            <div class="text-[11px] font-bold text-[#71717a] uppercase tracking-wider">Cluster CPU Load</div>
+            <div id="metric-cpu" class="text-3xl font-black text-[#231212] mt-2">34.5%</div>
+            <div class="w-full bg-slate-300 h-2 rounded-full mt-2 overflow-hidden">
+              <div id="bar-cpu" class="bg-[#231212] h-full rounded-full transition-all" style="width: 34.5%"></div>
             </div>
           </div>
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-            <span class="text-xs text-slate-400">Solver Wall-Clock Time</span>
-            <div id="metric-runtime" class="text-2xl font-bold font-mono text-purple-400 mt-1">1.46 <span class="text-xs text-slate-500">ms</span></div>
-            <span id="metric-algo-name" class="text-[11px] text-slate-400 font-mono truncate">Exact Optimizer (B&B)</span>
+
+          <div class="bg-[#f4f4f4] rounded-3xl p-6 border border-[#e5e5e5]">
+            <div class="text-[11px] font-bold text-[#71717a] uppercase tracking-wider">Solver Runtime</div>
+            <div id="metric-runtime" class="text-3xl font-black text-[#231212] mt-2">1.46 <span class="text-xs font-normal text-[#71717a]">ms</span></div>
+            <div id="metric-algo-name" class="text-[11px] text-[#71717a] font-mono truncate mt-1">Exact Optimizer</div>
           </div>
         </div>
 
-        <!-- SERVER HARDWARE ALLOCATION BARS -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <h4 class="text-xs font-semibold text-slate-200 uppercase tracking-wide mb-3">Server Capacity Saturation (CPU & RAM Cores)</h4>
-          <div id="server-bars-grid" class="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <!-- Populated via JS -->
-          </div>
-        </div>
-
-        <!-- TOPOLOGY CANVAS -->
-        <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
-          <div class="px-5 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between text-xs">
-            <div class="flex items-center gap-2">
-              <span class="font-semibold text-slate-200">Interactive Cloud Topology Canvas</span>
-              <span id="canvas-stats" class="text-slate-500 font-mono">(16 Servers, 28 Physical Links)</span>
+        <!-- TOPOLOGY SVG CANVAS -->
+        <div class="bg-white rounded-[32px] border border-[#e5e5e5] overflow-hidden shadow-sm">
+          <div class="px-6 sm:px-8 py-4 border-b border-[#f0f0f0] flex flex-wrap items-center justify-between gap-3 bg-[#fafafa]">
+            <div>
+              <span class="font-bold text-sm text-[#231212]">Interactive Topology Canvas</span>
+              <span id="canvas-stats" class="text-xs text-[#71717a] ml-2 font-mono">(16 Servers, 28 Links)</span>
             </div>
             <div class="flex items-center gap-2">
-              <button onclick="toggleMstOverlay()" id="btn-mst-toggle" class="px-2.5 py-1 rounded text-[11px] font-medium bg-rose-500/20 text-rose-300 border border-rose-500/30">
+              <button onclick="toggleMstOverlay()" id="btn-mst-toggle" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#e3e2f7] text-[#231212] border border-[#d4d2f0] transition-all">
                 🌲 Backbone MST: ON
               </button>
-              <button onclick="toggleWeightsOverlay()" id="btn-weight-toggle" class="px-2.5 py-1 rounded text-[11px] font-medium bg-slate-800 text-slate-400">
+              <button onclick="toggleWeightsOverlay()" id="btn-weight-toggle" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-[#d4d4d8] text-[#231212]">
                 Weights: ON
               </button>
             </div>
           </div>
-          <div class="relative h-[480px] w-full flex items-center justify-center p-2 bg-slate-950">
+
+          <div class="relative h-[480px] w-full flex items-center justify-center p-3 bg-white">
             <svg id="svg-canvas" viewBox="0 0 800 450" class="w-full h-full select-none"></svg>
-            <div id="hover-tooltip" class="hidden absolute top-4 left-4 bg-slate-900/95 border border-slate-700 rounded-lg p-3 text-xs shadow-2xl pointer-events-none min-w-[180px]"></div>
+            <div id="hover-tooltip" class="hidden absolute top-4 left-4 bg-[#231212] text-white rounded-2xl p-4 text-xs shadow-2xl pointer-events-none min-w-[200px]"></div>
+          </div>
+        </div>
+
+        <!-- SERVER RESOURCE LOAD BARS -->
+        <div class="bg-[#f4f4f4] rounded-[32px] p-6 sm:p-8 border border-[#e5e5e5]">
+          <h4 class="text-xs font-bold text-[#231212] uppercase tracking-wider mb-4">Server Hardware Saturation Profiles (CPU & RAM)</h4>
+          <div id="server-bars-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <!-- Injected by JavaScript -->
           </div>
         </div>
       </div>
 
-      <!-- TAB 2: TOPOLOGIES VIEW -->
-      <div id="view-topology" class="hidden space-y-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <h3 class="text-sm font-semibold text-slate-200 mb-2">Available Topologies in Memory</h3>
-          <div class="grid grid-cols-4 gap-4 mt-3 text-xs font-mono">
-            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800"><span class="text-slate-400 font-bold block mb-1">Campus Backbone</span><span>16 Nodes • 28 Links</span></div>
-            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800"><span class="text-slate-400 font-bold block mb-1">Fat-Tree DC (k=4)</span><span>20 Nodes • 32 Links</span></div>
-            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800"><span class="text-slate-400 font-bold block mb-1">Regional Cloud</span><span>20 Nodes • 23 Links</span></div>
-            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800"><span class="text-slate-400 font-bold block mb-1">Waxman Graph</span><span>25 Nodes • 50+ Links</span></div>
+      <!-- TAB PANEL 2: TOPOLOGY EXPLORER -->
+      <div id="tab-content-topologies" class="hidden space-y-6">
+        <div class="bg-[#f4f4f4] rounded-[32px] p-8 border border-[#e5e5e5]">
+          <h3 class="text-lg font-bold text-[#231212] mb-1">Synthesized Network Topologies</h3>
+          <p class="text-xs text-[#71717a] mb-6">Four pre-compiled graph structures spanning edge compute, datacenter fabrics, and regional WAN backbones</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-white p-5 rounded-2xl border border-[#e5e5e5]">
+              <span class="text-xs font-bold text-[#231212] block mb-1">Campus Backbone</span>
+              <span class="text-xs text-[#71717a]">16 Nodes • 28 Physical Links</span>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-[#e5e5e5]">
+              <span class="text-xs font-bold text-[#231212] block mb-1">Datacenter Fat-Tree</span>
+              <span class="text-xs text-[#71717a]">20 Nodes (k=4) • 32 Bipartite Links</span>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-[#e5e5e5]">
+              <span class="text-xs font-bold text-[#231212] block mb-1">Regional Cloud</span>
+              <span class="text-xs text-[#71717a]">20 Nodes • 23 Continental Links</span>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-[#e5e5e5]">
+              <span class="text-xs font-bold text-[#231212] block mb-1">Waxman Geometric</span>
+              <span class="text-xs text-[#71717a]">25 Nodes • Distance Probabilistic</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- TAB 3: MST BACKBONE VIEW -->
-      <div id="view-mst" class="hidden space-y-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
-          <h3 class="text-sm font-semibold text-slate-100">🌲 Minimum Spanning Tree (MST) Backbone Synthesis</h3>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            By synthesizing an MST backbone with Kruskal (O(E log E)) or Prim (O((V+E) log V)), cloud orchestrators eliminate switching loops and broadcast storms.
+      <!-- TAB PANEL 3: MST BACKBONE DETAILS -->
+      <div id="tab-content-mst" class="hidden space-y-6">
+        <div class="bg-[#e3e2f7] rounded-[32px] p-8">
+          <h3 class="text-xl font-black text-[#231212] mb-2">🌲 Minimum Spanning Tree (MST) Backbone Synthesis</h3>
+          <p class="text-xs text-[#52525b] max-w-2xl leading-relaxed">
+            By extracting an MST backbone using Kruskal (DSU with union by rank and path compression) or Prim (Binary Min-Heap), switching loops are eliminated and routing tables are dramatically reduced.
           </p>
-          <div class="grid grid-cols-3 gap-4 text-xs font-mono">
-            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800"><span class="text-slate-500">Links Pruned:</span><p class="text-emerald-400 font-bold text-xl mt-1">46.43% Saved</p></div>
-            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800"><span class="text-slate-500">Latency Stretch:</span><p class="text-indigo-400 font-bold text-xl mt-1">1.166x (+16.6%)</p></div>
-            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800"><span class="text-slate-500">Tree Invariant:</span><p class="text-purple-400 font-bold text-xl mt-1">|V| - 1 Edges</p></div>
+          <div class="grid grid-cols-3 gap-4 mt-6 text-xs">
+            <div class="bg-white/80 p-5 rounded-2xl backdrop-blur-sm">
+              <span class="text-[#71717a] font-medium">Links Pruned</span>
+              <div class="text-2xl font-black text-[#231212] mt-1">46.43% Saved</div>
+            </div>
+            <div class="bg-white/80 p-5 rounded-2xl backdrop-blur-sm">
+              <span class="text-[#71717a] font-medium">Latency Stretch</span>
+              <div class="text-2xl font-black text-[#231212] mt-1">1.166x (+16.6%)</div>
+            </div>
+            <div class="bg-white/80 p-5 rounded-2xl backdrop-blur-sm">
+              <span class="text-[#71717a] font-medium">Tree Invariant</span>
+              <div class="text-2xl font-black text-[#231212] mt-1">Exactly |V| - 1</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- TAB 4: ROUTING VIEW -->
-      <div id="view-routing" class="hidden space-y-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
-          <h3 class="text-sm font-semibold text-slate-100">🧭 Shortest Path Routing (SSSP & APSP)</h3>
-          <div class="grid grid-cols-3 gap-4 text-xs mt-3">
+      <!-- TAB PANEL 4: ROUTING TRACER -->
+      <div id="tab-content-routing" class="hidden space-y-6">
+        <div class="bg-[#f4f4f4] rounded-[32px] p-8 border border-[#e5e5e5]">
+          <h3 class="text-lg font-bold text-[#231212] mb-1">Shortest Path Routing Engine</h3>
+          <p class="text-xs text-[#71717a] mb-6">Trace lowest-latency paths using Dijkstra's SSSP algorithm</p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
             <div>
-              <label class="block text-slate-400 mb-1">Source Server</label>
-              <select id="route-src" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-200 font-mono"></select>
+              <label class="block text-xs font-bold text-[#231212] mb-1">Source Server</label>
+              <select id="route-src" class="w-full bg-white border border-[#d4d4d8] rounded-2xl p-3 text-xs text-[#231212] font-mono"></select>
             </div>
             <div>
-              <label class="block text-slate-400 mb-1">Destination Server</label>
-              <select id="route-dst" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-200 font-mono"></select>
+              <label class="block text-xs font-bold text-[#231212] mb-1">Destination Server</label>
+              <select id="route-dst" class="w-full bg-white border border-[#d4d4d8] rounded-2xl p-3 text-xs text-[#231212] font-mono"></select>
             </div>
             <div class="flex items-end">
-              <button onclick="computeShortestRoute()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg shadow-md transition-all">
-                Trace Route (Dijkstra)
+              <button onclick="computeShortestRoute()" class="w-full py-3 bg-[#231212] hover:bg-[#3d2424] text-white font-bold rounded-2xl text-xs transition-all shadow-md">
+                Trace Shortest Route (Dijkstra)
               </button>
             </div>
           </div>
-          <div id="route-result-box" class="hidden bg-slate-950 p-4 rounded-lg border border-slate-800 text-xs font-mono space-y-2">
-            <div class="flex justify-between"><span class="text-slate-400">Recommended Shortest Route:</span><span id="route-path-text" class="text-emerald-400 font-bold"></span></div>
-            <div class="flex justify-between"><span class="text-slate-400">End-to-End Latency:</span><span id="route-cost-text" class="text-indigo-400 font-bold"></span></div>
-            <div class="flex justify-between"><span class="text-slate-400">Execution Time:</span><span id="route-time-text" class="text-purple-400"></span></div>
+
+          <div id="route-result-box" class="hidden bg-white p-5 rounded-2xl border border-[#e5e5e5] mt-6 text-xs font-mono space-y-2">
+            <div class="flex justify-between"><span class="text-[#71717a]">Optimal Path:</span><span id="route-path-text" class="text-indigo-600 font-bold"></span></div>
+            <div class="flex justify-between"><span class="text-[#71717a]">End-to-End Latency:</span><span id="route-cost-text" class="text-[#231212] font-bold"></span></div>
+            <div class="flex justify-between"><span class="text-[#71717a]">Algorithm Runtime:</span><span id="route-time-text" class="text-[#52525b]"></span></div>
           </div>
         </div>
       </div>
 
-      <!-- TAB 5: BENCHMARKS VIEW -->
-      <div id="view-benchmarks" class="hidden space-y-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
-          <h3 class="text-sm font-semibold text-slate-100">📊 Empirical Complexity & Scalability Benchmarks</h3>
-          <p class="text-xs text-slate-400">Wall-clock execution times and optimality gaps measured across varying task volumes (K in [5, 20]).</p>
-          <div class="h-80 w-full mt-4 bg-slate-950 p-4 rounded-xl border border-slate-800">
+      <!-- TAB PANEL 5: BENCHMARKS -->
+      <div id="tab-content-benchmarks" class="hidden space-y-6">
+        <div class="bg-[#f4f4f4] rounded-[32px] p-8 border border-[#e5e5e5]">
+          <h3 class="text-lg font-bold text-[#231212] mb-1">Empirical Complexity & Runtime Benchmarks</h3>
+          <p class="text-xs text-[#71717a] mb-6">Measured wall-clock runtimes comparing Exact Optimizer, Knapsack DP, and Greedy Schedulers</p>
+          <div class="h-80 w-full bg-white p-6 rounded-2xl border border-[#e5e5e5]">
             <canvas id="benchmark-chart"></canvas>
           </div>
         </div>
       </div>
 
-      <!-- TAB 6: DOCUMENTATION VIEW -->
-      <div id="view-docs" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-8 space-y-4 text-xs text-slate-300">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-          <h3 class="text-sm font-bold text-slate-100">Algorithmic Optimization of Cloud Task Placement</h3>
-          <a href="/docs/TECHNICAL_REPORT.html" target="_blank" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded text-xs font-semibold">
-            Open Full HTML Report ↗
-          </a>
-        </div>
-        <p class="leading-relaxed">
-          This project formalizes VM replica placement as an Integer Linear Program minimizing weighted client communication latency subject to CPU and RAM capacities.
-        </p>
-        <div class="bg-slate-950 p-4 rounded border border-slate-800 font-mono text-[11px] text-slate-200 space-y-1">
-          <div>min sum_{t in T} sum_{s in V} x_{t,s} * sum_{c in V} lambda(c, t) * dist(c, s)</div>
-          <div>subject to: sum_s x_{t,s} = 1, sum_t x_{t,s} * d_cpu(t) &lt;= C_cpu(s), sum_t x_{t,s} * d_ram(t) &lt;= C_ram(s)</div>
-        </div>
-      </div>
+    </main>
 
-    </div>
-  </main>
+    <!-- FOOTER -->
+    <footer class="px-10 py-6 border-t border-[#f0f0f0] flex flex-wrap items-center justify-between text-xs text-[#71717a] bg-[#fafafa]">
+      <span>Design and Analysis of Algorithms (DAA) Capstone Project</span>
+      <span class="font-mono">Python 3.11 • FastAPI • Satoshi Design System</span>
+    </footer>
+
+  </div>
 
   <script>
-    let currentTab = 'placement';
+    let currentTab = 'simulation';
     let nodes = [];
     let edges = [];
     let mstEdges = [];
@@ -339,36 +517,29 @@
     let isWeightsVisible = true;
     let chartInstance = null;
 
-    // Switch Tabs
     function switchTab(tabId) {
       currentTab = tabId;
-      const tabs = ['placement', 'topology', 'mst', 'routing', 'benchmarks', 'docs'];
+      const tabs = ['simulation', 'topologies', 'mst', 'routing', 'benchmarks'];
       tabs.forEach(t => {
-        document.getElementById(`view-${t}`).classList.add('hidden');
-        const btn = document.getElementById(`tab-btn-${t}`);
-        btn.className = 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900';
+        document.getElementById(`tab-content-${t}`).classList.add('hidden');
+        const btn = document.getElementById(`nav-btn-${t}`);
+        if (btn) btn.className = 'px-4 py-2 rounded-full transition-all text-[#231212] hover:bg-white/80';
       });
 
-      document.getElementById(`view-${tabId}`).classList.remove('hidden');
-      const activeBtn = document.getElementById(`tab-btn-${tabId}`);
-      activeBtn.className = 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all bg-indigo-600/20 text-indigo-300 border border-indigo-500/30';
-
-      const titles = {
-        placement: 'Task Simulation & Multi-Capacity Optimization',
-        topology: 'Physical Infrastructure Topologies',
-        mst: 'Minimum Spanning Tree (MST) Backbone Synthesis',
-        routing: 'Adaptive Shortest-Path Routing Engine',
-        benchmarks: 'Empirical Complexity Benchmarks & Plots',
-        docs: 'Academic Technical Report & Correctness Proofs'
-      };
-      document.getElementById('view-title').innerText = titles[tabId];
+      document.getElementById(`tab-content-${tabId}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`nav-btn-${tabId}`);
+      if (activeBtn) activeBtn.className = 'px-4 py-2 rounded-full transition-all bg-[#231212] text-white shadow-sm';
 
       if (tabId === 'benchmarks') {
         renderBenchmarkChart();
       }
     }
 
-    // Load Topology
+    function scrollToWorkspace() {
+      switchTab('simulation');
+      document.getElementById('workspace-container').scrollIntoView({ behavior: 'smooth' });
+    }
+
     async function onTopologyChange() {
       const topoId = document.getElementById('sel-topology').value;
       try {
@@ -385,7 +556,6 @@
       }
     }
 
-    // Populate Route Select Dropdowns
     function populateRouteSelects() {
       const srcSel = document.getElementById('route-src');
       const dstSel = document.getElementById('route-dst');
@@ -393,11 +563,10 @@
       dstSel.innerHTML = '';
       nodes.forEach((n, idx) => {
         srcSel.innerHTML += `<option value="${n.node_id}">${n.node_id} (${n.name})</option>`;
-        dstSel.innerHTML += `<option value="${n.node_id}" ${idx === 5 ? 'selected' : ''}>${n.node_id} (${n.name})</option>`;
+        dstSel.innerHTML += `<option value="${n.node_id}" ${idx === Math.min(5, nodes.length - 1) ? 'selected' : ''}>${n.node_id} (${n.name})</option>`;
       });
     }
 
-    // Toggle Overlays
     function toggleMstOverlay() {
       isMstVisible = !isMstVisible;
       document.getElementById('btn-mst-toggle').innerText = `🌲 Backbone MST: ${isMstVisible ? 'ON' : 'OFF'}`;
@@ -409,12 +578,11 @@
       renderCanvas();
     }
 
-    // Render Canvas
     function renderCanvas(highlightPath = []) {
       const svg = document.getElementById('svg-canvas');
       if (!nodes.length) return;
 
-      document.getElementById('canvas-stats').innerText = `(${nodes.length} Servers, ${edges.length} Physical Links)`;
+      document.getElementById('canvas-stats').innerText = `(${nodes.length} Servers, ${edges.length} Links)`;
 
       const minX = Math.min(...nodes.map(n => n.x), 0);
       const maxX = Math.max(...nodes.map(n => n.x), 10);
@@ -437,14 +605,14 @@
 
       let svgHtml = `
         <defs>
-          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1E293B" stroke-width="0.5" />
+          <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1" fill="#e2e8f0" />
           </pattern>
         </defs>
         <rect width="800" height="450" fill="url(#grid)" />
       `;
 
-      // Draw base edges
+      // Base links
       edges.forEach(e => {
         const u = nodeMap.get(e.u);
         const v = nodeMap.get(e.v);
@@ -455,54 +623,54 @@
         if (isMst || isPath) return;
 
         const x1 = scaleX(u.x), y1 = scaleY(u.y), x2 = scaleX(v.x), y2 = scaleY(v.y);
-        svgHtml += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#334155" stroke-width="1.2" stroke-opacity="0.7" />`;
+        svgHtml += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#cbd5e1" stroke-width="1.5" stroke-opacity="0.8" />`;
         if (isWeightsVisible) {
-          svgHtml += `<text x="${(x1+x2)/2}" y="${(y1+y2)/2 - 3}" fill="#64748B" font-size="9" font-family="monospace" text-anchor="middle">${e.weight}ms</text>`;
+          svgHtml += `<text x="${(x1+x2)/2}" y="${(y1+y2)/2 - 3}" fill="#94a3b8" font-size="9" font-family="monospace" text-anchor="middle">${e.weight}ms</text>`;
         }
       });
 
-      // Draw MST edges (Red)
+      // MST Backbone links (Rose/Violet Accent)
       if (isMstVisible) {
         mstEdges.forEach(e => {
           const u = nodeMap.get(e.u);
           const v = nodeMap.get(e.v);
           if (!u || !v) return;
           const x1 = scaleX(u.x), y1 = scaleY(u.y), x2 = scaleX(v.x), y2 = scaleY(v.y);
-          svgHtml += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#F43F5E" stroke-width="3" stroke-linecap="round" stroke-opacity="0.9" />`;
+          svgHtml += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#e11d48" stroke-width="3" stroke-linecap="round" />`;
           if (isWeightsVisible) {
-            svgHtml += `<text x="${(x1+x2)/2}" y="${(y1+y2)/2 - 4}" fill="#FDA4AF" font-size="9" font-weight="bold" font-family="monospace" text-anchor="middle">${e.weight}ms</text>`;
+            svgHtml += `<text x="${(x1+x2)/2}" y="${(y1+y2)/2 - 4}" fill="#e11d48" font-size="9" font-weight="bold" font-family="monospace" text-anchor="middle">${e.weight}ms</text>`;
           }
         });
       }
 
-      // Draw active path (Cyan)
+      // Shortest Path route (Cyan)
       for (let i = 0; i < highlightPath.length - 1; i++) {
         const u = nodeMap.get(highlightPath[i]);
         const v = nodeMap.get(highlightPath[i + 1]);
         if (u && v) {
-          svgHtml += `<line x1="${scaleX(u.x)}" y1="${scaleY(u.y)}" x2="${scaleX(v.x)}" y2="${scaleY(v.y)}" stroke="#38BDF8" stroke-width="4.5" stroke-linecap="round" />`;
+          svgHtml += `<line x1="${scaleX(u.x)}" y1="${scaleY(u.y)}" x2="${scaleX(v.x)}" y2="${scaleY(v.y)}" stroke="#06b6d4" stroke-width="4.5" stroke-linecap="round" />`;
         }
       }
 
-      // Draw nodes
+      // Nodes
       nodes.forEach(n => {
         const cx = scaleX(n.x);
         const cy = scaleY(n.y);
         const assigned = taskCounts[n.node_id] || 0;
-        let fill = '#3B82F6';
-        if (n.tier === 'aggregation') fill = '#10B981';
-        if (n.tier.includes('edge')) fill = '#F59E0B';
+        let fill = '#231212';
+        if (n.tier === 'aggregation') fill = '#4f46e5';
+        if (n.tier.includes('edge')) fill = '#0284c7';
 
         if (assigned > 0) {
-          svgHtml += `<circle cx="${cx}" cy="${cy}" r="15" fill="none" stroke="#A855F7" stroke-width="2" stroke-dasharray="3 3" />`;
+          svgHtml += `<circle cx="${cx}" cy="${cy}" r="15" fill="none" stroke="#e3e2f7" stroke-width="3" />`;
         }
         svgHtml += `
           <g class="cursor-pointer" onmouseenter="showTooltip('${n.node_id}', ${cx}, ${cy})" onmouseleave="hideTooltip()">
-            <circle cx="${cx}" cy="${cy}" r="9" fill="${fill}" stroke="#0F172A" stroke-width="2" />
-            <text x="${cx}" y="${cy + 17}" fill="#F1F5F9" font-size="10" font-weight="600" text-anchor="middle">${n.node_id}</text>
+            <circle cx="${cx}" cy="${cy}" r="9" fill="${fill}" stroke="#ffffff" stroke-width="2" />
+            <text x="${cx}" y="${cy + 17}" fill="#231212" font-size="10" font-weight="700" text-anchor="middle">${n.node_id}</text>
             ${assigned > 0 ? `
-              <circle cx="${cx + 8}" cy="${cy - 8}" r="6" fill="#9333EA" />
-              <text x="${cx + 8}" y="${cy - 6}" fill="#FFFFFF" font-size="8" font-weight="bold" text-anchor="middle">${assigned}</text>
+              <circle cx="${cx + 8}" cy="${cy - 8}" r="6" fill="#231212" />
+              <text x="${cx + 8}" y="${cy - 6}" fill="#ffffff" font-size="8" font-weight="bold" text-anchor="middle">${assigned}</text>
             ` : ''}
           </g>
         `;
@@ -511,21 +679,20 @@
       svg.innerHTML = svgHtml;
     }
 
-    // Tooltips
     function showTooltip(nodeId, cx, cy) {
       const node = nodes.find(n => n.node_id === nodeId);
       if (!node) return;
       const count = Object.values(placements).filter(s => s === nodeId).length;
       const tip = document.getElementById('hover-tooltip');
       tip.innerHTML = `
-        <div class="font-semibold text-slate-100 flex justify-between">
+        <div class="font-bold text-white flex justify-between items-center mb-1">
           <span>${node.name}</span>
-          <span class="text-[10px] font-mono px-1 py-0.5 rounded bg-slate-800 text-indigo-300 uppercase">${node.tier}</span>
+          <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-white/20 text-white uppercase">${node.tier}</span>
         </div>
-        <div class="mt-1.5 space-y-1 font-mono text-[11px] text-slate-300">
-          <div class="flex justify-between"><span>CPU:</span><span class="text-emerald-400">${node.cpu_capacity} Cores</span></div>
-          <div class="flex justify-between"><span>RAM:</span><span class="text-indigo-400">${node.ram_capacity} GB</span></div>
-          <div class="flex justify-between"><span>Tasks Placed:</span><span class="text-purple-400 font-bold">${count} Replicas</span></div>
+        <div class="mt-1 space-y-0.5 font-mono text-[11px] text-slate-300">
+          <div class="flex justify-between"><span>CPU:</span><span class="text-emerald-400 font-bold">${node.cpu_capacity} Cores</span></div>
+          <div class="flex justify-between"><span>RAM:</span><span class="text-indigo-300 font-bold">${node.ram_capacity} GB</span></div>
+          <div class="flex justify-between"><span>Assigned:</span><span class="text-rose-300 font-bold">${count} Replicas</span></div>
         </div>
       `;
       tip.classList.remove('hidden');
@@ -534,10 +701,9 @@
       document.getElementById('hover-tooltip').classList.add('hidden');
     }
 
-    // Trigger Simulation
     async function triggerSimulation() {
       const btn = document.getElementById('btn-run');
-      btn.innerHTML = `<span class="animate-spin text-sm">🔄</span><span>Solving...</span>`;
+      btn.innerHTML = `<span>🔄 Computing...</span>`;
       btn.disabled = true;
 
       const topoId = document.getElementById('sel-topology').value;
@@ -570,30 +736,38 @@
           const pData = await pRes.json();
           placements = pData.placements;
 
-          document.getElementById('metric-avg-latency').innerHTML = `${pData.average_latency_ms} <span class="text-xs text-slate-500">ms</span>`;
+          document.getElementById('metric-avg-latency').innerHTML = `${pData.average_latency_ms} <span class="text-xs font-normal text-[#71717a]">ms</span>`;
           document.getElementById('metric-total-cost').innerText = `Total Cost: ${pData.total_latency}`;
           document.getElementById('metric-placed').innerText = `${pData.placed_count} / ${pData.placed_count + pData.unplaced_count}`;
           document.getElementById('metric-cpu').innerText = `${pData.cpu_utilization_pct}%`;
           document.getElementById('bar-cpu').style.width = `${Math.min(100, pData.cpu_utilization_pct)}%`;
-          document.getElementById('metric-runtime').innerHTML = `${pData.execution_time_ms} <span class="text-xs text-slate-500">ms</span>`;
+          document.getElementById('metric-runtime').innerHTML = `${pData.execution_time_ms} <span class="text-xs font-normal text-[#71717a]">ms</span>`;
           document.getElementById('metric-algo-name').innerText = pData.algorithm;
+
+          // Sync phone mockup
+          const mockLat = document.getElementById('mockup-latency');
+          if (mockLat) mockLat.innerText = `${pData.average_latency_ms} ms`;
+          const mockCpu = document.getElementById('mockup-cpu-pct');
+          if (mockCpu) mockCpu.innerText = `${pData.cpu_utilization_pct}%`;
+          const mockBar = document.getElementById('mockup-cpu-bar');
+          if (mockBar) mockBar.style.width = `${pData.cpu_utilization_pct}%`;
 
           // Render hardware bars
           const grid = document.getElementById('server-bars-grid');
           grid.innerHTML = '';
           pData.servers.slice(0, 8).forEach(s => {
             grid.innerHTML += `
-              <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-xs">
-                <div class="flex justify-between font-semibold text-slate-200 mb-1">
+              <div class="bg-white p-4 rounded-2xl border border-[#e5e5e5] text-xs">
+                <div class="flex justify-between font-bold text-[#231212] mb-1.5">
                   <span>${s.server_id}</span>
-                  <span class="text-[10px] font-mono text-slate-400">${s.cpu_util_pct}% Load</span>
+                  <span class="text-[10px] font-mono text-[#71717a]">${s.cpu_util_pct}%</span>
                 </div>
-                <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden mb-1.5">
-                  <div class="bg-blue-500 h-full rounded-full" style="width: ${Math.min(100, s.cpu_util_pct)}%"></div>
+                <div class="w-full bg-[#f4f4f4] h-1.5 rounded-full overflow-hidden mb-2">
+                  <div class="bg-[#231212] h-full rounded-full" style="width: ${Math.min(100, s.cpu_util_pct)}%"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono">
+                <div class="flex justify-between text-[10px] text-[#71717a] font-mono">
                   <span>CPU: ${s.cpu_used}/${s.cpu_capacity}</span>
-                  <span>RAM: ${s.ram_used}/${s.ram_capacity}G</span>
+                  <span>RAM: ${s.ram_used}G</span>
                 </div>
               </div>
             `;
@@ -609,12 +783,11 @@
       } catch (err) {
         console.error('Simulation failed', err);
       } finally {
-        btn.innerHTML = `<span>▶ Trigger Simulation</span>`;
+        btn.innerHTML = `<span>▶ Execute Simulation</span>`;
         btn.disabled = false;
       }
     }
 
-    // Compute Route
     async function computeShortestRoute() {
       const topoId = document.getElementById('sel-topology').value;
       const src = document.getElementById('route-src').value;
@@ -624,14 +797,8 @@
         const res = await fetch('/api/route', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            topology_id: topoId,
-            source: src,
-            target: dst,
-            algorithm: 'dijkstra'
-          })
+          body: JSON.stringify({ topology_id: topoId, source: src, target: dst, algorithm: 'dijkstra' })
         });
-
         if (res.ok) {
           const data = await res.json();
           document.getElementById('route-result-box').classList.remove('hidden');
@@ -645,7 +812,6 @@
       }
     }
 
-    // Benchmark Chart
     function renderBenchmarkChart() {
       const ctx = document.getElementById('benchmark-chart').getContext('2d');
       if (chartInstance) chartInstance.destroy();
@@ -658,17 +824,22 @@
             {
               label: 'Exact Optimizer (Optimum Latency ms)',
               data: [12.62, 10.87, 11.93, 13.10],
-              backgroundColor: '#10B981'
+              backgroundColor: '#231212',
+              borderRadius: 8
             },
             {
               label: 'Greedy Nearest Traffic (ms)',
               data: [12.62, 10.90, 12.00, 13.21],
-              backgroundColor: '#6366F1'
+              backgroundColor: '#6366f1',
+              borderRadius: 8
             },
             {
               label: 'Knapsack DP (ms)',
               data: [12.98, 11.02, 12.68, 14.60],
-              backgroundColor: '#F59E0B'
+              backgroundColor: '#e3e2f7',
+              borderColor: '#231212',
+              borderWidth: 1,
+              borderRadius: 8
             }
           ]
         },
@@ -676,17 +847,16 @@
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { labels: { color: '#94A3B8', font: { family: 'Inter', size: 11 } } }
+            legend: { labels: { color: '#231212', font: { family: 'Satoshi', size: 11, weight: 'bold' } } }
           },
           scales: {
-            x: { ticks: { color: '#64748B' }, grid: { color: '#1E293B' } },
-            y: { ticks: { color: '#64748B' }, grid: { color: '#1E293B' } }
+            x: { ticks: { color: '#71717a' }, grid: { display: false } },
+            y: { ticks: { color: '#71717a' }, grid: { color: '#f0f0f0' } }
           }
         }
       });
     }
 
-    // Startup
     window.addEventListener('DOMContentLoaded', () => {
       onTopologyChange().then(() => triggerSimulation());
     });
