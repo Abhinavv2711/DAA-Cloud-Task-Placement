@@ -69,7 +69,7 @@
       </div>
 
       <!-- Navigation Pill Tabs -->
-      <nav class="flex items-center gap-1.5 sm:gap-2 bg-[#f4f4f4] p-1.5 rounded-full text-xs font-semibold overflow-x-auto">
+      <nav class="flex items-center gap-1.5 sm:gap-2 bg-[#f4f4f4] p-1.5 rounded-full text-xs font-semibold overflow-x-auto shadow-inner">
         <button onclick="switchTab('simulation')" id="nav-btn-simulation" class="px-4 py-2 rounded-full transition-all bg-[#231212] text-white shadow-sm">
           Simulation
         </button>
@@ -100,7 +100,7 @@
       </div>
     </header>
 
-    <!-- HERO SECTION (Satoshi Style: Plan Your Escape Aesthetic) -->
+    <!-- HERO SECTION (Satoshi Style) -->
     <section class="px-6 sm:px-12 pt-10 pb-12 relative overflow-hidden bg-white">
       <!-- Background Decorative Organic Ribbon Wave -->
       <svg class="absolute -right-20 top-10 w-[700px] h-[340px] text-[#e3e2f7] pointer-events-none opacity-60 hidden lg:block" fill="none" viewBox="0 0 700 340">
@@ -126,7 +126,7 @@
           </p>
 
           <div class="flex flex-wrap items-center gap-3 pt-2">
-            <button onclick="scrollToWorkspace()" class="px-7 py-3.5 rounded-full bg-[#231212] text-white hover:bg-[#3d2424] transition-all text-xs font-semibold tracking-wide shadow-lg shadow-[#231212]/20 flex items-center gap-2">
+            <button onclick="switchTab('simulation')" class="px-7 py-3.5 rounded-full bg-[#231212] text-white hover:bg-[#3d2424] transition-all text-xs font-semibold tracking-wide shadow-lg shadow-[#231212]/20 flex items-center gap-2">
               <span>Run Simulation</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
             </button>
@@ -152,15 +152,14 @@
           </div>
         </div>
 
-        <!-- Right Hero Column: Sleek Console Showcase Mockup (Phone Frame from Reference) -->
+        <!-- Right Hero Column: Sleek Console Showcase Mockup -->
         <div class="lg:col-span-5 flex justify-center">
           <div class="w-full max-w-[340px] bg-[#231212] rounded-[48px] p-3 shadow-2xl shadow-slate-900/30 border-4 border-[#231212] relative">
-            <!-- Screen Notch / Dynamic Island -->
+            <!-- Screen Notch -->
             <div class="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-5 bg-[#231212] rounded-full z-20"></div>
 
             <!-- Inner Screen Body -->
             <div class="bg-white rounded-[40px] p-5 pt-8 overflow-hidden min-h-[460px] flex flex-col justify-between">
-              <!-- Top Header -->
               <div>
                 <div class="flex justify-between items-center text-[10px] text-slate-400 font-mono mb-4">
                   <span>9:41</span>
@@ -172,7 +171,7 @@
                     <h3 class="text-base font-bold text-[#231212]">Cluster Monitor</h3>
                     <p class="text-[10px] text-[#71717a]">Live Topology Telemetry</p>
                   </div>
-                  <span class="px-2 py-0.5 rounded-full bg-[#e3e2f7] text-[#231212] text-[10px] font-bold">Campus DC</span>
+                  <span id="mockup-topo-name" class="px-2 py-0.5 rounded-full bg-[#e3e2f7] text-[#231212] text-[10px] font-bold">Campus DC</span>
                 </div>
 
                 <!-- Mini Cards inside phone mockup -->
@@ -207,7 +206,7 @@
 
               <!-- Bottom CTA in phone mockup -->
               <div class="pt-4 border-t border-[#f0f0f0]">
-                <button onclick="scrollToWorkspace()" class="w-full py-2.5 rounded-full bg-[#231212] text-white text-xs font-semibold text-center hover:bg-[#3d2424] transition-all">
+                <button onclick="switchTab('simulation')" class="w-full py-2.5 rounded-full bg-[#231212] text-white text-xs font-semibold text-center hover:bg-[#3d2424] transition-all">
                   Inspect Solver Output
                 </button>
               </div>
@@ -217,16 +216,16 @@
       </div>
     </section>
 
-    <!-- SECTION 2: WHY CHOOSE US (PASTEL CARDS AESTHETIC FROM REFERENCE IMAGE 3) -->
-    <section class="px-6 sm:px-12 py-12 bg-[#fbfbfb] border-y border-[#f0f0f0]">
-      <div class="max-w-xl mb-8">
-        <h2 class="text-3xl font-black text-[#231212] tracking-tight">WHY ALGORITHMIC PLACEMENT MATTERS</h2>
+    <!-- SECTION 2: WHY CHOOSE US (PASTEL CARDS AESTHETIC) -->
+    <section class="px-6 sm:px-12 py-10 bg-[#fbfbfb] border-y border-[#f0f0f0]">
+      <div class="max-w-xl mb-6">
+        <h2 class="text-2xl sm:text-3xl font-black text-[#231212] tracking-tight">WHY ALGORITHMIC PLACEMENT MATTERS</h2>
         <p class="text-xs text-[#71717a] mt-1">Mathematical optimization over ad-hoc heuristic placement</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Card 1: Soft Lilac -->
-        <div class="bg-[#e3e2f7] rounded-[28px] p-7 flex flex-col justify-between transition-transform hover:-translate-y-1 shadow-sm">
+        <div onclick="switchTab('mst')" class="bg-[#e3e2f7] rounded-[28px] p-7 flex flex-col justify-between transition-transform hover:-translate-y-1 shadow-sm cursor-pointer">
           <div class="h-10 w-10 rounded-full bg-white flex items-center justify-center text-[#231212] text-lg font-bold mb-6">
             🌲
           </div>
@@ -239,7 +238,7 @@
         </div>
 
         <!-- Card 2: Off-white -->
-        <div class="bg-[#f4f4f4] rounded-[28px] p-7 flex flex-col justify-between transition-transform hover:-translate-y-1 shadow-sm border border-[#ececec]">
+        <div onclick="switchTab('simulation')" class="bg-[#f4f4f4] rounded-[28px] p-7 flex flex-col justify-between transition-transform hover:-translate-y-1 shadow-sm border border-[#ececec] cursor-pointer">
           <div class="h-10 w-10 rounded-full bg-white flex items-center justify-center text-[#231212] text-lg font-bold mb-6">
             🎒
           </div>
@@ -252,7 +251,7 @@
         </div>
 
         <!-- Card 3: Light Sage/Sky -->
-        <div class="bg-[#e8f2ea] rounded-[28px] p-7 flex flex-col justify-between transition-transform hover:-translate-y-1 shadow-sm">
+        <div onclick="switchTab('routing')" class="bg-[#e8f2ea] rounded-[28px] p-7 flex flex-col justify-between transition-transform hover:-translate-y-1 shadow-sm cursor-pointer">
           <div class="h-10 w-10 rounded-full bg-white flex items-center justify-center text-[#231212] text-lg font-bold mb-6">
             🧭
           </div>
@@ -266,86 +265,89 @@
       </div>
     </section>
 
-    <!-- SECTION 3: INTERACTIVE WORKSPACE & SIMULATION CONTROLS -->
-    <main id="workspace-container" class="px-6 sm:px-12 py-12 space-y-8 bg-white">
+    <!-- SECTION 3: WORKSPACE (ALL TABS SCROLL DIRECTLY HERE) -->
+    <main id="workspace-container" class="px-6 sm:px-12 py-10 space-y-8 bg-white">
 
-      <!-- CONFIGURATION DOCK -->
-      <div class="bg-[#f4f4f4] rounded-[32px] p-6 sm:p-8 border border-[#e5e5e5] shadow-sm">
-        <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-[#e5e5e5]">
-          <div>
-            <h3 class="text-base font-bold text-[#231212]">Simulation Configuration</h3>
-            <p class="text-xs text-[#71717a]">Select target infrastructure topology, replica count, and algorithmic solver</p>
-          </div>
-          <span class="px-3 py-1 rounded-full bg-white text-[11px] font-mono text-[#52525b] border border-[#e5e5e5]">
-            Engine Parameters
-          </span>
+      <!-- SECTION HEADER WITH INLINE SUB-TABS -->
+      <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#f0f0f0]">
+        <div>
+          <h2 id="active-tab-title" class="text-2xl font-black text-[#231212] tracking-tight">Task & VM Placement Simulation</h2>
+          <p id="active-tab-subtitle" class="text-xs text-[#71717a]">Solve capacity-constrained replica placement to minimize weighted client latency</p>
         </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-          <!-- Topology -->
-          <div>
-            <label class="block text-xs font-bold text-[#231212] mb-2 uppercase tracking-wider">Topology Preset</label>
-            <select id="sel-topology" onchange="onTopologyChange()" class="w-full bg-white border border-[#d4d4d8] rounded-2xl px-4 py-2.5 text-xs text-[#231212] focus:outline-none focus:ring-2 focus:ring-[#231212]">
-              <option value="campus">Campus Network Backbone (16 Nodes)</option>
-              <option value="fattree">Datacenter Fat-Tree (20 Nodes)</option>
-              <option value="regional">Regional Cloud Backbone (20 Nodes)</option>
-              <option value="waxman">Waxman Random Geometric (25 Nodes)</option>
-            </select>
-          </div>
-
-          <!-- Task Count -->
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <label class="text-xs font-bold text-[#231212] uppercase tracking-wider">Task Replicas</label>
-              <span id="label-num-tasks" class="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-[#231212] text-white">10 Tasks</span>
-            </div>
-            <input id="slider-num-tasks" type="range" min="4" max="30" step="2" value="10" oninput="document.getElementById('label-num-tasks').innerText = this.value + ' Tasks'" class="w-full h-2 bg-slate-300 rounded-lg appearance-none cursor-pointer mt-2" />
-            <div class="flex justify-between text-[10px] text-[#71717a] mt-1.5 font-mono">
-              <span>4 Min</span><span>16 Balanced</span><span>30 Stress</span>
-            </div>
-          </div>
-
-          <!-- Traffic & Tightness -->
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-xs font-bold text-[#231212] mb-2 uppercase tracking-wider">Traffic</label>
-              <select id="sel-traffic" class="w-full bg-white border border-[#d4d4d8] rounded-2xl px-3 py-2.5 text-xs text-[#231212]">
-                <option value="hotspot">Hotspot 80/20</option>
-                <option value="uniform">Uniform</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-[#231212] mb-2 uppercase tracking-wider">Capacity</label>
-              <select id="sel-tightness" class="w-full bg-white border border-[#d4d4d8] rounded-2xl px-3 py-2.5 text-xs text-[#231212]">
-                <option value="loose">Loose 150%</option>
-                <option value="normal" selected>Normal 100%</option>
-                <option value="tight">Tight 60%</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Algorithm Selection -->
-          <div>
-            <label class="block text-xs font-bold text-[#231212] mb-2 uppercase tracking-wider">Optimization Solver</label>
-            <select id="sel-algo" class="w-full bg-white border border-[#d4d4d8] rounded-2xl px-4 py-2.5 text-xs text-[#231212] focus:outline-none focus:ring-2 focus:ring-[#231212]">
-              <option value="exact">Exact Optimizer (Branch & Bound)</option>
-              <option value="dp">Dynamic Programming (Knapsack DP)</option>
-              <option value="gnt">Greedy Nearest Traffic (GNT)</option>
-              <option value="gld">Greedy Latency-Density (GLD)</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="flex justify-end mt-6 pt-5 border-t border-[#e5e5e5]">
-          <button id="btn-run" onclick="triggerSimulation()" class="px-8 py-3 rounded-full bg-[#231212] text-white hover:bg-[#3d2424] text-xs font-bold tracking-wide shadow-md flex items-center gap-2 transition-all">
-            <span>▶ Execute Simulation</span>
-          </button>
+        <div class="flex items-center gap-1.5 bg-[#f4f4f4] p-1.5 rounded-full text-xs font-semibold">
+          <button onclick="switchTab('simulation')" id="sub-btn-simulation" class="px-4 py-1.5 rounded-full bg-[#231212] text-white">Simulation</button>
+          <button onclick="switchTab('topologies')" id="sub-btn-topologies" class="px-4 py-1.5 rounded-full text-[#231212] hover:bg-white">Topologies</button>
+          <button onclick="switchTab('mst')" id="sub-btn-mst" class="px-4 py-1.5 rounded-full text-[#231212] hover:bg-white">MST Backbone</button>
+          <button onclick="switchTab('routing')" id="sub-btn-routing" class="px-4 py-1.5 rounded-full text-[#231212] hover:bg-white">Routing</button>
+          <button onclick="switchTab('benchmarks')" id="sub-btn-benchmarks" class="px-4 py-1.5 rounded-full text-[#231212] hover:bg-white">Benchmarks</button>
         </div>
       </div>
 
-      <!-- TAB PANEL 1: PLACEMENT SIMULATION RESULTS -->
-      <div id="tab-content-simulation" class="space-y-8">
-        <!-- KPI METRICS SUMMARY -->
+      <!-- TAB 1: SIMULATION CONTROLS & KPIS -->
+      <div id="panel-simulation" class="space-y-6">
+        <!-- Configuration Dock -->
+        <div class="bg-[#f4f4f4] rounded-[32px] p-6 sm:p-8 border border-[#e5e5e5] shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#e5e5e5]">
+            <span class="text-xs font-bold uppercase tracking-wider text-[#231212]">Simulation Parameters</span>
+            <span class="px-3 py-1 rounded-full bg-white text-[11px] font-mono text-[#52525b] border border-[#e5e5e5]">Active Config</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+            <div>
+              <label class="block text-xs font-bold text-[#231212] mb-2 uppercase tracking-wider">Topology Preset</label>
+              <select id="sel-topology" onchange="onTopologyChange()" class="w-full bg-white border border-[#d4d4d8] rounded-2xl px-4 py-2.5 text-xs text-[#231212] focus:outline-none focus:ring-2 focus:ring-[#231212]">
+                <option value="campus">Campus Network Backbone (16 Nodes)</option>
+                <option value="fattree">Datacenter Fat-Tree (20 Nodes)</option>
+                <option value="regional">Regional Cloud Backbone (20 Nodes)</option>
+                <option value="waxman">Waxman Random Geometric (25 Nodes)</option>
+              </select>
+            </div>
+
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <label class="text-xs font-bold text-[#231212] uppercase tracking-wider">Task Replicas</label>
+                <span id="label-num-tasks" class="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-[#231212] text-white">10 Tasks</span>
+              </div>
+              <input id="slider-num-tasks" type="range" min="4" max="30" step="2" value="10" oninput="document.getElementById('label-num-tasks').innerText = this.value + ' Tasks'" class="w-full h-2 bg-slate-300 rounded-lg appearance-none cursor-pointer mt-2" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-[#231212] mb-2 uppercase tracking-wider">Traffic</label>
+                <select id="sel-traffic" class="w-full bg-white border border-[#d4d4d8] rounded-2xl px-3 py-2.5 text-xs text-[#231212]">
+                  <option value="hotspot">Hotspot 80/20</option>
+                  <option value="uniform">Uniform</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-[#231212] mb-2 uppercase tracking-wider">Capacity</label>
+                <select id="sel-tightness" class="w-full bg-white border border-[#d4d4d8] rounded-2xl px-3 py-2.5 text-xs text-[#231212]">
+                  <option value="loose">Loose 150%</option>
+                  <option value="normal" selected>Normal 100%</option>
+                  <option value="tight">Tight 60%</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-[#231212] mb-2 uppercase tracking-wider">Optimization Solver</label>
+              <select id="sel-algo" class="w-full bg-white border border-[#d4d4d8] rounded-2xl px-4 py-2.5 text-xs text-[#231212] focus:outline-none focus:ring-2 focus:ring-[#231212]">
+                <option value="exact">Exact Optimizer (Branch & Bound)</option>
+                <option value="dp">Dynamic Programming (Knapsack DP)</option>
+                <option value="gnt">Greedy Nearest Traffic (GNT)</option>
+                <option value="gld">Greedy Latency-Density (GLD)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="flex justify-end mt-6 pt-5 border-t border-[#e5e5e5]">
+            <button id="btn-run" onclick="triggerSimulation()" class="px-8 py-3 rounded-full bg-[#231212] text-white hover:bg-[#3d2424] text-xs font-bold tracking-wide shadow-md flex items-center gap-2 transition-all">
+              <span>▶ Execute Simulation</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Summary Cards -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           <div class="bg-[#f4f4f4] rounded-3xl p-6 border border-[#e5e5e5]">
             <div class="text-[11px] font-bold text-[#71717a] uppercase tracking-wider">Average Latency</div>
@@ -374,101 +376,97 @@
           </div>
         </div>
 
-        <!-- TOPOLOGY SVG CANVAS -->
-        <div class="bg-white rounded-[32px] border border-[#e5e5e5] overflow-hidden shadow-sm">
-          <div class="px-6 sm:px-8 py-4 border-b border-[#f0f0f0] flex flex-wrap items-center justify-between gap-3 bg-[#fafafa]">
+        <!-- Server Hardware Resource Bars -->
+        <div class="bg-[#f4f4f4] rounded-[32px] p-6 sm:p-8 border border-[#e5e5e5]">
+          <h4 class="text-xs font-bold text-[#231212] uppercase tracking-wider mb-4">Server Hardware Saturation Profiles (CPU & RAM Cores)</h4>
+          <div id="server-bars-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <!-- Populated via JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: TOPOLOGIES PRESETS VIEW -->
+      <div id="panel-topologies" class="hidden space-y-6">
+        <div class="bg-[#f4f4f4] rounded-[32px] p-8 border border-[#e5e5e5]">
+          <h3 class="text-lg font-bold text-[#231212] mb-1">Select Active Infrastructure Graph</h3>
+          <p class="text-xs text-[#71717a] mb-6">Click any topology to instantly load its server hierarchy and render it below:</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <button onclick="selectTopologyFromCard('campus')" class="p-5 rounded-2xl bg-white border-2 hover:border-[#231212] transition-all text-left group">
+              <span class="text-xs font-bold text-[#231212] block mb-1 group-hover:text-indigo-600">Campus Backbone</span>
+              <span class="text-xs text-[#71717a]">16 Nodes • 28 Physical Links</span>
+              <span class="block text-[10px] text-slate-400 mt-2 font-mono">Hierarchy: Core / Dist / Edge</span>
+            </button>
+            <button onclick="selectTopologyFromCard('fattree')" class="p-5 rounded-2xl bg-white border-2 hover:border-[#231212] transition-all text-left group">
+              <span class="text-xs font-bold text-[#231212] block mb-1 group-hover:text-indigo-600">Datacenter Fat-Tree</span>
+              <span class="text-xs text-[#71717a]">20 Nodes (k=4) • 32 Bipartite Links</span>
+              <span class="block text-[10px] text-slate-400 mt-2 font-mono">Bipartite Pod Fabric</span>
+            </button>
+            <button onclick="selectTopologyFromCard('regional')" class="p-5 rounded-2xl bg-white border-2 hover:border-[#231212] transition-all text-left group">
+              <span class="text-xs font-bold text-[#231212] block mb-1 group-hover:text-indigo-600">Regional Cloud</span>
+              <span class="text-xs text-[#71717a]">20 Nodes • 23 Continental Links</span>
+              <span class="block text-[10px] text-slate-400 mt-2 font-mono">Global WAN Backbone</span>
+            </button>
+            <button onclick="selectTopologyFromCard('waxman')" class="p-5 rounded-2xl bg-white border-2 hover:border-[#231212] transition-all text-left group">
+              <span class="text-xs font-bold text-[#231212] block mb-1 group-hover:text-indigo-600">Waxman Geometric</span>
+              <span class="text-xs text-[#71717a]">25 Nodes • Random Spatial Mesh</span>
+              <span class="block text-[10px] text-slate-400 mt-2 font-mono">Synthetic Distance Matrix</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: MST BACKBONE CONTROLS -->
+      <div id="panel-mst" class="hidden space-y-6">
+        <div class="bg-[#e3e2f7] rounded-[32px] p-8 border border-[#d4d2f0]">
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
             <div>
-              <span class="font-bold text-sm text-[#231212]">Interactive Topology Canvas</span>
-              <span id="canvas-stats" class="text-xs text-[#71717a] ml-2 font-mono">(16 Servers, 28 Links)</span>
+              <h3 class="text-xl font-black text-[#231212]">🌲 Minimum Spanning Tree (MST) Backbone Synthesis</h3>
+              <p class="text-xs text-[#52525b] mt-1">Prunes redundant links to eliminate switching loops and broadcast storms.</p>
             </div>
             <div class="flex items-center gap-2">
-              <button onclick="toggleMstOverlay()" id="btn-mst-toggle" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#e3e2f7] text-[#231212] border border-[#d4d2f0] transition-all">
-                🌲 Backbone MST: ON
+              <button onclick="runMstWithAlgo('kruskal')" id="btn-mst-kruskal" class="px-4 py-2 rounded-full bg-[#231212] text-white text-xs font-bold shadow-sm">
+                Kruskal (DSU)
               </button>
-              <button onclick="toggleWeightsOverlay()" id="btn-weight-toggle" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-[#d4d4d8] text-[#231212]">
-                Weights: ON
+              <button onclick="runMstWithAlgo('prim')" id="btn-mst-prim" class="px-4 py-2 rounded-full bg-white text-[#231212] text-xs font-bold hover:bg-[#231212] hover:text-white transition-all">
+                Prim (Min-Heap)
               </button>
             </div>
           </div>
 
-          <div class="relative h-[480px] w-full flex items-center justify-center p-3 bg-white">
-            <svg id="svg-canvas" viewBox="0 0 800 450" class="w-full h-full select-none"></svg>
-            <div id="hover-tooltip" class="hidden absolute top-4 left-4 bg-[#231212] text-white rounded-2xl p-4 text-xs shadow-2xl pointer-events-none min-w-[200px]"></div>
-          </div>
-        </div>
-
-        <!-- SERVER RESOURCE LOAD BARS -->
-        <div class="bg-[#f4f4f4] rounded-[32px] p-6 sm:p-8 border border-[#e5e5e5]">
-          <h4 class="text-xs font-bold text-[#231212] uppercase tracking-wider mb-4">Server Hardware Saturation Profiles (CPU & RAM)</h4>
-          <div id="server-bars-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <!-- Injected by JavaScript -->
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB PANEL 2: TOPOLOGY EXPLORER -->
-      <div id="tab-content-topologies" class="hidden space-y-6">
-        <div class="bg-[#f4f4f4] rounded-[32px] p-8 border border-[#e5e5e5]">
-          <h3 class="text-lg font-bold text-[#231212] mb-1">Synthesized Network Topologies</h3>
-          <p class="text-xs text-[#71717a] mb-6">Four pre-compiled graph structures spanning edge compute, datacenter fabrics, and regional WAN backbones</p>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-white p-5 rounded-2xl border border-[#e5e5e5]">
-              <span class="text-xs font-bold text-[#231212] block mb-1">Campus Backbone</span>
-              <span class="text-xs text-[#71717a]">16 Nodes • 28 Physical Links</span>
-            </div>
-            <div class="bg-white p-5 rounded-2xl border border-[#e5e5e5]">
-              <span class="text-xs font-bold text-[#231212] block mb-1">Datacenter Fat-Tree</span>
-              <span class="text-xs text-[#71717a]">20 Nodes (k=4) • 32 Bipartite Links</span>
-            </div>
-            <div class="bg-white p-5 rounded-2xl border border-[#e5e5e5]">
-              <span class="text-xs font-bold text-[#231212] block mb-1">Regional Cloud</span>
-              <span class="text-xs text-[#71717a]">20 Nodes • 23 Continental Links</span>
-            </div>
-            <div class="bg-white p-5 rounded-2xl border border-[#e5e5e5]">
-              <span class="text-xs font-bold text-[#231212] block mb-1">Waxman Geometric</span>
-              <span class="text-xs text-[#71717a]">25 Nodes • Distance Probabilistic</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB PANEL 3: MST BACKBONE DETAILS -->
-      <div id="tab-content-mst" class="hidden space-y-6">
-        <div class="bg-[#e3e2f7] rounded-[32px] p-8">
-          <h3 class="text-xl font-black text-[#231212] mb-2">🌲 Minimum Spanning Tree (MST) Backbone Synthesis</h3>
-          <p class="text-xs text-[#52525b] max-w-2xl leading-relaxed">
-            By extracting an MST backbone using Kruskal (DSU with union by rank and path compression) or Prim (Binary Min-Heap), switching loops are eliminated and routing tables are dramatically reduced.
-          </p>
-          <div class="grid grid-cols-3 gap-4 mt-6 text-xs">
-            <div class="bg-white/80 p-5 rounded-2xl backdrop-blur-sm">
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-6 text-xs">
+            <div class="bg-white/90 p-5 rounded-2xl backdrop-blur-sm">
               <span class="text-[#71717a] font-medium">Links Pruned</span>
-              <div class="text-2xl font-black text-[#231212] mt-1">46.43% Saved</div>
+              <div id="mst-links-saved" class="text-2xl font-black text-[#231212] mt-1">46.43% Saved</div>
             </div>
-            <div class="bg-white/80 p-5 rounded-2xl backdrop-blur-sm">
+            <div class="bg-white/90 p-5 rounded-2xl backdrop-blur-sm">
               <span class="text-[#71717a] font-medium">Latency Stretch</span>
-              <div class="text-2xl font-black text-[#231212] mt-1">1.166x (+16.6%)</div>
+              <div id="mst-latency-stretch" class="text-2xl font-black text-[#231212] mt-1">1.166x (+16.6%)</div>
             </div>
-            <div class="bg-white/80 p-5 rounded-2xl backdrop-blur-sm">
+            <div class="bg-white/90 p-5 rounded-2xl backdrop-blur-sm">
+              <span class="text-[#71717a] font-medium">Tree Latency Weight</span>
+              <div id="mst-total-weight" class="text-2xl font-black text-[#231212] mt-1">19.50 ms</div>
+            </div>
+            <div class="bg-white/90 p-5 rounded-2xl backdrop-blur-sm">
               <span class="text-[#71717a] font-medium">Tree Invariant</span>
-              <div class="text-2xl font-black text-[#231212] mt-1">Exactly |V| - 1</div>
+              <div class="text-2xl font-black text-emerald-600 mt-1">|V| - 1 Edges</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- TAB PANEL 4: ROUTING TRACER -->
-      <div id="tab-content-routing" class="hidden space-y-6">
+      <!-- TAB 4: ROUTING TRACER CONTROLS -->
+      <div id="panel-routing" class="hidden space-y-6">
         <div class="bg-[#f4f4f4] rounded-[32px] p-8 border border-[#e5e5e5]">
           <h3 class="text-lg font-bold text-[#231212] mb-1">Shortest Path Routing Engine</h3>
-          <p class="text-xs text-[#71717a] mb-6">Trace lowest-latency paths using Dijkstra's SSSP algorithm</p>
+          <p class="text-xs text-[#71717a] mb-6">Trace lowest-latency routes between server nodes and highlight the path on the canvas below:</p>
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
             <div>
-              <label class="block text-xs font-bold text-[#231212] mb-1">Source Server</label>
+              <label class="block text-xs font-bold text-[#231212] mb-1 uppercase tracking-wider">Source Server</label>
               <select id="route-src" class="w-full bg-white border border-[#d4d4d8] rounded-2xl p-3 text-xs text-[#231212] font-mono"></select>
             </div>
             <div>
-              <label class="block text-xs font-bold text-[#231212] mb-1">Destination Server</label>
+              <label class="block text-xs font-bold text-[#231212] mb-1 uppercase tracking-wider">Destination Server</label>
               <select id="route-dst" class="w-full bg-white border border-[#d4d4d8] rounded-2xl p-3 text-xs text-[#231212] font-mono"></select>
             </div>
             <div class="flex items-end">
@@ -486,14 +484,56 @@
         </div>
       </div>
 
-      <!-- TAB PANEL 5: BENCHMARKS -->
-      <div id="tab-content-benchmarks" class="hidden space-y-6">
+      <!-- TAB 5: EMPIRICAL BENCHMARKS -->
+      <div id="panel-benchmarks" class="hidden space-y-6">
         <div class="bg-[#f4f4f4] rounded-[32px] p-8 border border-[#e5e5e5]">
-          <h3 class="text-lg font-bold text-[#231212] mb-1">Empirical Complexity & Runtime Benchmarks</h3>
-          <p class="text-xs text-[#71717a] mb-6">Measured wall-clock runtimes comparing Exact Optimizer, Knapsack DP, and Greedy Schedulers</p>
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+            <div>
+              <h3 class="text-lg font-bold text-[#231212]">Empirical Complexity & Runtime Benchmarks</h3>
+              <p class="text-xs text-[#71717a]">Measured wall-clock runtimes comparing Exact Optimizer, Knapsack DP, and Greedy Schedulers</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="renderBenchmarkDataset('latency')" id="btn-chart-lat" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#231212] text-white">Latency Quality</button>
+              <button onclick="renderBenchmarkDataset('runtime')" id="btn-chart-rt" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-white text-[#231212] border border-[#d4d4d8]">Runtime Scaling</button>
+            </div>
+          </div>
           <div class="h-80 w-full bg-white p-6 rounded-2xl border border-[#e5e5e5]">
             <canvas id="benchmark-chart"></canvas>
           </div>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE TOPOLOGY CANVAS (ALWAYS VISIBLE & TIED TO CURRENT TAB) -->
+      <div id="topology-canvas-card" class="bg-white rounded-[32px] border border-[#e5e5e5] overflow-hidden shadow-sm">
+        <div class="px-6 sm:px-8 py-4 border-b border-[#f0f0f0] flex flex-wrap items-center justify-between gap-3 bg-[#fafafa]">
+          <div>
+            <span class="font-bold text-sm text-[#231212]">Interactive Topology Canvas</span>
+            <span id="canvas-stats" class="text-xs text-[#71717a] ml-2 font-mono">(16 Servers, 28 Links)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="toggleMstOverlay()" id="btn-mst-toggle" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#e3e2f7] text-[#231212] border border-[#d4d2f0] transition-all">
+              🌲 Backbone MST: ON
+            </button>
+            <button onclick="toggleWeightsOverlay()" id="btn-weight-toggle" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-[#d4d4d8] text-[#231212]">
+              Weights: ON
+            </button>
+          </div>
+        </div>
+
+        <div class="relative h-[480px] w-full flex items-center justify-center p-3 bg-white">
+          <svg id="svg-canvas" viewBox="0 0 800 450" class="w-full h-full select-none"></svg>
+          <div id="hover-tooltip" class="hidden absolute top-4 left-4 bg-[#231212] text-white rounded-2xl p-4 text-xs shadow-2xl pointer-events-none min-w-[200px]"></div>
+        </div>
+
+        <!-- Canvas Legend Footer -->
+        <div class="px-6 sm:px-8 py-3 bg-[#fafafa] border-t border-[#f0f0f0] flex flex-wrap items-center justify-between text-[11px] text-[#71717a]">
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-[#231212]"></span>Core DC</span>
+            <span class="flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-[#4f46e5]"></span>Aggregation</span>
+            <span class="flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-[#0284c7]"></span>Edge Compute</span>
+            <span class="flex items-center gap-1.5"><span class="h-1 w-3 bg-[#e11d48]"></span>MST Backbone</span>
+          </div>
+          <span class="font-mono text-[10px]">Hover any node to inspect CPU/RAM capacities</span>
         </div>
       </div>
 
@@ -516,32 +556,91 @@
     let isMstVisible = true;
     let isWeightsVisible = true;
     let chartInstance = null;
+    let currentMstAlgo = 'kruskal';
 
+    // Switch Tabs Function (Smoothly switches views and scrolls to the workspace)
     function switchTab(tabId) {
       currentTab = tabId;
       const tabs = ['simulation', 'topologies', 'mst', 'routing', 'benchmarks'];
+
+      // Update Top Nav Header Buttons
       tabs.forEach(t => {
-        document.getElementById(`tab-content-${t}`).classList.add('hidden');
-        const btn = document.getElementById(`nav-btn-${t}`);
-        if (btn) btn.className = 'px-4 py-2 rounded-full transition-all text-[#231212] hover:bg-white/80';
+        const navBtn = document.getElementById(`nav-btn-${t}`);
+        if (navBtn) {
+          if (t === tabId) {
+            navBtn.className = 'px-4 py-2 rounded-full transition-all bg-[#231212] text-white shadow-sm';
+          } else {
+            navBtn.className = 'px-4 py-2 rounded-full transition-all text-[#231212] hover:bg-white/80';
+          }
+        }
+
+        const subBtn = document.getElementById(`sub-btn-${t}`);
+        if (subBtn) {
+          if (t === tabId) {
+            subBtn.className = 'px-4 py-1.5 rounded-full bg-[#231212] text-white shadow-sm';
+          } else {
+            subBtn.className = 'px-4 py-1.5 rounded-full text-[#231212] hover:bg-white';
+          }
+        }
+
+        const panel = document.getElementById(`panel-${t}`);
+        if (panel) {
+          if (t === tabId) {
+            panel.classList.remove('hidden');
+          } else {
+            panel.classList.add('hidden');
+          }
+        }
       });
 
-      document.getElementById(`tab-content-${tabId}`).classList.remove('hidden');
-      const activeBtn = document.getElementById(`nav-btn-${tabId}`);
-      if (activeBtn) activeBtn.className = 'px-4 py-2 rounded-full transition-all bg-[#231212] text-white shadow-sm';
+      // Update Section Title & Subtitle
+      const titles = {
+        simulation: { title: 'Task & VM Placement Simulation', sub: 'Solve capacity-constrained replica placement to minimize weighted client latency' },
+        topologies: { title: 'Network Infrastructure Topologies', sub: 'Explore synthesized multi-tier topologies (Campus, Fat-Tree, Regional Cloud, Waxman)' },
+        mst: { title: 'Minimum Spanning Tree (MST) Backbone', sub: 'Prunes redundant physical links to eliminate switching loops and broadcast storms' },
+        routing: { title: 'Shortest Path Routing Engine', sub: 'Trace lowest-latency routes between server nodes using Dijkstra SSSP' },
+        benchmarks: { title: 'Empirical Complexity & Runtime Benchmarks', sub: 'Wall-clock runtimes and latency optimality measured on multi-scale cloud topologies' }
+      };
 
-      if (tabId === 'benchmarks') {
-        renderBenchmarkChart();
+      if (titles[tabId]) {
+        document.getElementById('active-tab-title').innerText = titles[tabId].title;
+        document.getElementById('active-tab-subtitle').innerText = titles[tabId].sub;
       }
+
+      // Smooth scroll to the workspace area
+      const workspace = document.getElementById('workspace-container');
+      if (workspace) {
+        workspace.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      // Render chart if opening benchmarks tab
+      if (tabId === 'benchmarks') {
+        renderBenchmarkDataset('latency');
+      }
+
+      // Refresh canvas
+      renderCanvas();
     }
 
-    function scrollToWorkspace() {
-      switchTab('simulation');
-      document.getElementById('workspace-container').scrollIntoView({ behavior: 'smooth' });
+    function selectTopologyFromCard(topoId) {
+      document.getElementById('sel-topology').value = topoId;
+      onTopologyChange().then(() => {
+        triggerSimulation();
+        switchTab('simulation');
+      });
     }
 
     async function onTopologyChange() {
       const topoId = document.getElementById('sel-topology').value;
+      const topoNames = {
+        campus: 'Campus DC',
+        fattree: 'Fat-Tree (k=4)',
+        regional: 'Regional Cloud',
+        waxman: 'Waxman Graph'
+      };
+      const mockName = document.getElementById('mockup-topo-name');
+      if (mockName) mockName.innerText = topoNames[topoId] || 'Cloud DC';
+
       try {
         const res = await fetch(`/api/topology/${topoId}`);
         if (res.ok) {
@@ -559,6 +658,7 @@
     function populateRouteSelects() {
       const srcSel = document.getElementById('route-src');
       const dstSel = document.getElementById('route-dst');
+      if (!srcSel || !dstSel) return;
       srcSel.innerHTML = '';
       dstSel.innerHTML = '';
       nodes.forEach((n, idx) => {
@@ -578,9 +678,43 @@
       renderCanvas();
     }
 
+    async function runMstWithAlgo(algo) {
+      currentMstAlgo = algo;
+      const kBtn = document.getElementById('btn-mst-kruskal');
+      const pBtn = document.getElementById('btn-mst-prim');
+      if (algo === 'kruskal') {
+        kBtn.className = 'px-4 py-2 rounded-full bg-[#231212] text-white text-xs font-bold shadow-sm';
+        pBtn.className = 'px-4 py-2 rounded-full bg-white text-[#231212] text-xs font-bold hover:bg-[#231212] hover:text-white transition-all';
+      } else {
+        pBtn.className = 'px-4 py-2 rounded-full bg-[#231212] text-white text-xs font-bold shadow-sm';
+        kBtn.className = 'px-4 py-2 rounded-full bg-white text-[#231212] text-xs font-bold hover:bg-[#231212] hover:text-white transition-all';
+      }
+
+      const topoId = document.getElementById('sel-topology').value;
+      try {
+        const res = await fetch('/api/mst', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ topology_id: topoId, algorithm: algo })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          mstEdges = data.mst_edges;
+          document.getElementById('mst-links-saved').innerText = `${data.link_reduction_pct}% Saved`;
+          document.getElementById('mst-latency-stretch').innerText = `${data.avg_latency_stretch}x`;
+          document.getElementById('mst-total-weight').innerText = `${data.total_weight_ms} ms`;
+          isMstVisible = true;
+          document.getElementById('btn-mst-toggle').innerText = `🌲 Backbone MST: ON`;
+          renderCanvas();
+        }
+      } catch (err) {
+        console.error('MST run error', err);
+      }
+    }
+
     function renderCanvas(highlightPath = []) {
       const svg = document.getElementById('svg-canvas');
-      if (!nodes.length) return;
+      if (!svg || !nodes.length) return;
 
       document.getElementById('canvas-stats').innerText = `(${nodes.length} Servers, ${edges.length} Links)`;
 
@@ -629,7 +763,7 @@
         }
       });
 
-      // MST Backbone links (Rose/Violet Accent)
+      // MST Backbone links (Crimson/Violet Accent)
       if (isMstVisible) {
         mstEdges.forEach(e => {
           const u = nodeMap.get(e.u);
@@ -728,7 +862,7 @@
           fetch('/api/mst', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ topology_id: topoId, algorithm: 'kruskal' })
+            body: JSON.stringify({ topology_id: topoId, algorithm: currentMstAlgo })
           })
         ]);
 
@@ -777,6 +911,9 @@
         if (mRes.ok) {
           const mData = await mRes.json();
           mstEdges = mData.mst_edges;
+          document.getElementById('mst-links-saved').innerText = `${mData.link_reduction_pct}% Saved`;
+          document.getElementById('mst-latency-stretch').innerText = `${mData.avg_latency_stretch}x`;
+          document.getElementById('mst-total-weight').innerText = `${mData.total_weight_ms} ms`;
         }
 
         renderCanvas();
@@ -812,37 +949,42 @@
       }
     }
 
-    function renderBenchmarkChart() {
+    function renderBenchmarkDataset(type) {
+      const btnLat = document.getElementById('btn-chart-lat');
+      const btnRt = document.getElementById('btn-chart-rt');
+
+      if (type === 'latency') {
+        btnLat.className = 'px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#231212] text-white';
+        btnRt.className = 'px-3.5 py-1.5 rounded-full text-xs font-bold bg-white text-[#231212] border border-[#d4d4d8]';
+        drawChart(
+          ['5 Tasks', '10 Tasks', '15 Tasks', '20 Tasks'],
+          [
+            { label: 'Exact Optimizer (Optimum Latency ms)', data: [12.62, 10.87, 11.93, 13.10], backgroundColor: '#231212', borderRadius: 8 },
+            { label: 'Greedy Nearest Traffic (ms)', data: [12.62, 10.90, 12.00, 13.21], backgroundColor: '#6366f1', borderRadius: 8 },
+            { label: 'Knapsack DP (ms)', data: [12.98, 11.02, 12.68, 14.60], backgroundColor: '#e3e2f7', borderColor: '#231212', borderWidth: 1, borderRadius: 8 }
+          ]
+        );
+      } else {
+        btnRt.className = 'px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#231212] text-white';
+        btnLat.className = 'px-3.5 py-1.5 rounded-full text-xs font-bold bg-white text-[#231212] border border-[#d4d4d8]';
+        drawChart(
+          ['5 Tasks', '10 Tasks', '15 Tasks', '20 Tasks'],
+          [
+            { label: 'Exact B&B Runtime (ms)', data: [0.71, 2.97, 261.97, 999.31], backgroundColor: '#e11d48', borderRadius: 8 },
+            { label: 'Knapsack DP Runtime (ms)', data: [0.44, 1.17, 1.14, 3.10], backgroundColor: '#231212', borderRadius: 8 },
+            { label: 'Greedy Nearest Runtime (ms)', data: [0.36, 0.71, 1.25, 2.46], backgroundColor: '#6366f1', borderRadius: 8 }
+          ]
+        );
+      }
+    }
+
+    function drawChart(labels, datasets) {
       const ctx = document.getElementById('benchmark-chart').getContext('2d');
       if (chartInstance) chartInstance.destroy();
 
       chartInstance = new Chart(ctx, {
         type: 'bar',
-        data: {
-          labels: ['5 Tasks', '10 Tasks', '15 Tasks', '20 Tasks'],
-          datasets: [
-            {
-              label: 'Exact Optimizer (Optimum Latency ms)',
-              data: [12.62, 10.87, 11.93, 13.10],
-              backgroundColor: '#231212',
-              borderRadius: 8
-            },
-            {
-              label: 'Greedy Nearest Traffic (ms)',
-              data: [12.62, 10.90, 12.00, 13.21],
-              backgroundColor: '#6366f1',
-              borderRadius: 8
-            },
-            {
-              label: 'Knapsack DP (ms)',
-              data: [12.98, 11.02, 12.68, 14.60],
-              backgroundColor: '#e3e2f7',
-              borderColor: '#231212',
-              borderWidth: 1,
-              borderRadius: 8
-            }
-          ]
-        },
+        data: { labels, datasets },
         options: {
           responsive: true,
           maintainAspectRatio: false,
