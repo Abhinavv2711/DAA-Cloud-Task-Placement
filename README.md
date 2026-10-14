@@ -15,7 +15,7 @@ In distributed edge-cloud architectures, placing application replicas and virtua
    - **Greedy Heuristics:** Greedy Nearest Traffic (GNT) and Greedy Latency-Density (GLD).
    - **Dynamic Programming (Knapsack DP):** Multi-server 0/1 knapsack decomposition maximizing latency savings.
    - **Exact Optimizer (Branch & Bound):** Delivering provably globally optimal placements with admissible lower-bound pruning.
-5. **Provides rich deliverables:** Interactive Streamlit web dashboard, Jupyter notebook, Gephi graph exports, a 10–12 page equivalent academic technical report, and a 15–20 minute PowerPoint presentation with speaker script.
+5. **Provides interactive deliverables:** Zero-dependency web dashboard (FastAPI backend with real-time SVG topology visualization), runnable Jupyter Notebook, and Gephi graph exports.
 
 ---
 
@@ -23,8 +23,9 @@ In distributed edge-cloud architectures, placing application replicas and virtua
 
 ```text
 DAA P/
-├── app.py                           # Interactive Streamlit Web Dashboard
+├── api.py                           # FastAPI Server & REST API endpoints
 ├── cloud_task_placement.ipynb       # Interactive Jupyter Notebook
+├── start_dashboard.bat              # One-click Windows launcher
 ├── requirements.txt                 # Project dependencies
 ├── README.md                        # Project documentation and quickstart
 │
@@ -55,20 +56,13 @@ DAA P/
 │       ├── placement_benchmark.csv
 │       └── backbone_tradeoffs.json
 │
-├── docs/                            # Technical Documentation
-│   ├── TECHNICAL_REPORT.md          # 10–12 Page Equivalent Academic Technical Report
-│   └── TECHNICAL_REPORT.html        # Styled, Printable HTML Technical Report (KaTeX)
-│
-├── presentation/                    # Presentation Deliverables
-│   ├── cloud_task_placement_presentation.pptx  # 12-Slide PowerPoint Presentation Deck
-│   ├── generate_slides.py           # Slide generator script (python-pptx)
-│   └── PRESENTATION_SCRIPT.md       # 15–20 Minute Word-for-Word Speaker Script & Q&A
-│
 ├── scripts/                         # Automation Scripts
 │   ├── generate_datasets.py         # Generate sample datasets & Gephi files
 │   ├── run_benchmarks.py            # Run complete empirical benchmark suite
-│   ├── generate_notebook.py         # Generate Jupyter Notebook
-│   └── generate_html_report.py      # Compile Markdown report to styled HTML
+│   └── generate_notebook.py         # Generate Jupyter Notebook
+│
+├── static/                          # Interactive Web Dashboard
+│   └── index.html                   # Luxury-styled responsive SVG dashboard
 │
 └── tests/                           # Unit Test Suite
     └── test_all.py                  # Unit tests for all algorithms (8/8 passing)
@@ -85,9 +79,11 @@ pip install -r requirements.txt
 
 ### 2. Run the Interactive Web Dashboard
 ```powershell
-streamlit run app.py
+start_dashboard.bat
+# or:
+python -m uvicorn api:app --host 0.0.0.0 --port 8000
 ```
-*Opens interactive web interface in your browser displaying topology visualization, MST backbone toggles, Dijkstra/Bellman-Ford route tracing, task placement solvers, and benchmark charts.*
+*Opens the interactive web interface at http://localhost:8000 displaying topology visualization, MST backbone toggles, Dijkstra/Bellman-Ford route tracing, task placement solvers, and benchmark charts.*
 
 ### 3. Run the Unit Test Suite
 ```powershell

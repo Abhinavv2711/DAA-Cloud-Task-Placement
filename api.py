@@ -61,12 +61,6 @@ def serve_dashboard():
         return FileResponse(static_file)
     return FileResponse("static/index.html")
 
-@app.get("/docs/TECHNICAL_REPORT.html", response_class=FileResponse)
-def serve_report():
-    """Serves the publication-ready HTML technical report."""
-    report_file = os.path.join(os.path.dirname(__file__), "docs", "TECHNICAL_REPORT.html")
-    return FileResponse(report_file)
-
 # In-memory cached topologies
 TOPOLOGIES: Dict[str, Graph] = {
     "campus": create_campus_topology(),
